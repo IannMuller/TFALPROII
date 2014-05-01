@@ -48,12 +48,17 @@ public class Produto {
 	private long valorEmCentavos;
 
 	public Produto(final String ian, final String descricao,
-			final String unidade, final long valorEmCentavos) {
+			final String unidade, final long valorEmCentavos) throws IllegalArgumentException {
 		super();
 		this.ian = ian;
 		this.descricao = descricao;
 		this.unidade = unidade;
 		this.valorEmCentavos = valorEmCentavos;
+		
+		if(valorEmCentavos<=0){
+		 throw new IllegalArgumentException();	
+			
+		}
 	}
 
 	public static String getIanIndefinido() {

@@ -31,10 +31,23 @@ public class Cliente {
 	private String cpf;
 	private String email;
 
-	public Cliente(final String cpf, final String email) {
+	public Cliente(final String cpf, final String email) throws IllegalArgumentException {
 		super();
 		this.cpf = cpf;
 		this.email = email;
+		
+		if(cpf==null){
+			throw new IllegalArgumentException();
+			}
+		if(email==null){
+			throw new IllegalArgumentException();
+		}			
+	if(cpf.length()<14){
+		throw new IllegalArgumentException();
+		
+		
+	 }
+	
 	}
 
 	public String getCpf() {
