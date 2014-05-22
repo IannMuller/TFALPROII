@@ -47,22 +47,19 @@ public class Produto {
 	private String unidade;
 	private long valorEmCentavos;
 
-	public Produto(final String ian, final String descricao,
-			final String unidade, final long valorEmCentavos) throws IllegalArgumentException {
+	public Produto(final String ian, final String descricao, final String unidade, final long valorEmCentavos)	throws IllegalArgumentException {
 		super();
 		this.ian = ian;
 		this.descricao = descricao;
 		this.unidade = unidade;
 		this.valorEmCentavos = valorEmCentavos;
-		
-		if(valorEmCentavos<=0){
-		 throw new IllegalArgumentException();	
-			
+		if (valorEmCentavos <= 0) {
+			throw new IllegalArgumentException("Valor inválido");
 		}
 	}
 
 	public static String getIanIndefinido() {
-		return IAN_INDEFINIDO;
+		return IAN_INDEFINIDO; // WTF?
 	}
 
 	public String getIan() {

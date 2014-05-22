@@ -16,8 +16,8 @@ package pucrs.alpro2.pdv;
  * de digitação e cadastro duplicado.
  * 
  * <p>
- * Caso o cliente não informe ou não tenho um número de CPF, indicar a constante
- * CPF_INDEFINIDO.
+ * Caso o cliente não informe ou não tenho um número de CPF, indicar a
+ * constante CPF_INDEFINIDO.
  * 
  * @see http://www.receita.fazenda.gov.br/pessoafisica/cpf/cadastropf.htm
  * @see http://pt.wikipedia.org/wiki/Cpf
@@ -35,19 +35,16 @@ public class Cliente {
 		super();
 		this.cpf = cpf;
 		this.email = email;
-		
-		if(cpf==null){
-			throw new IllegalArgumentException();
-			}
-		if(email==null){
-			throw new IllegalArgumentException();
-		}			
-	if(cpf.length()<14){
-		throw new IllegalArgumentException();
-		
-		
-	 }
-	
+		if (cpf == null) {
+			throw new IllegalArgumentException("CPF inv�lido");
+		}
+		if (email == null) {
+			throw new IllegalArgumentException("E-mail inv�lido");
+		}
+		if (cpf.length() < 14) {
+			throw new IllegalArgumentException("CPF inv�lido");
+		}
+
 	}
 
 	public String getCpf() {
