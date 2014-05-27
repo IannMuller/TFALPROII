@@ -8,7 +8,7 @@ public class Acumulador {
   private int contador;
   public Acumulador() {
     valor = 0;
-    contador = 0;
+    contador = 1;
   }
   public double getValor() {
     return(valor);
