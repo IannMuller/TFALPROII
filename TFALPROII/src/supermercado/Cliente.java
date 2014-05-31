@@ -3,7 +3,7 @@ package supermercado;
 import java.util.Random;
 
 public class Cliente {
-	private int numero; // numero do cliente
+	private int numero; // número do cliente
 	private int instanteChegada;
 	private int tempoAtendimento; // quantidade de tempo que resta para o
 									// cliente no caixa
