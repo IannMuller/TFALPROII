@@ -1,10 +1,11 @@
 package supermercado;
 
-public class Atendente {
-	private Cliente clienteAtual;
-	private int numeroDeAtendidos;
+public abstract class Atendimento {
+	protected Cliente clienteAtual;
+	protected int numeroDeAtendidos;
 	
-	public Atendente (){
+	
+	public Atendimento (){
 		clienteAtual = null;
 		numeroDeAtendidos = 0;
 		
