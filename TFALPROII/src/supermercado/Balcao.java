@@ -3,9 +3,7 @@ package supermercado;
 /*
  * Classe Que simula o balcao de atendimento
  */
-public class Balcao implements Atendente {
-	private int numeroAtendimentos;
-	private Cliente clienteBalcao;
+public class Balcao extends Atendente {
 	public QueueTAD<Cliente> filaCaixa;
 
 	/*
@@ -13,15 +11,14 @@ public class Balcao implements Atendente {
 	 * numeroAtendimentos com 0
 	 */
 	public Balcao() {
-		clienteBalcao = null;
-		numeroAtendimentos = 0;
+		super();
 	}
 
 	/*
 	 * Recebe um cliente por parametro e passa para o clienteBalcao
 	 */
 	public void atenderCliente(Cliente c) {
-		clienteBalcao = c;
+		super();
 	}
 
 	/*
@@ -29,10 +26,7 @@ public class Balcao implements Atendente {
 	 * numeroAtendimentos em 1
 	 */
 	public Cliente dispensarClienteAtual() {
-		Cliente c = clienteBalcao;
-		clienteBalcao = null;
-		numeroAtendimentos++;
-		return c;
+		super();
 
 	}
 
@@ -40,21 +34,21 @@ public class Balcao implements Atendente {
 	 * Retorna true se o balcao esta vazio
 	 */
 	public boolean estaVazio() {
-		return (clienteBalcao == null);
+		super();
 	}
 
 	/*
 	 * Retorna o cliente no balcão
 	 */
 	public Cliente getClienteAtual() {
-		return clienteBalcao;
+		super();
 	}
 
 	/*
 	 * Retorna o numero de clientes atendidos
 	 */
 	public int getNumeroDeAtendidos() {
-		return numeroAtendimentos;
+		super();
 	}
 
 	/*
@@ -62,7 +56,7 @@ public class Balcao implements Atendente {
 	 * tido sucesso.
 	 */
 	public boolean AddFilaCaixa() {
-		Cliente c = clienteBalcao;
+		Cliente c = clienteAtual;
 		if (filaCaixa != null) {
 			filaCaixa.enqueue(c);
 			return true;
