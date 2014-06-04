@@ -3,7 +3,7 @@ package supermercado;
 /*
  * Classe Que simula o balcao de atendimento
  */
-public class Balcao extends Atendente {
+public class Balcao extends Atendimento {
 	public QueueTAD<Cliente> filaCaixa;
 
 	/*
