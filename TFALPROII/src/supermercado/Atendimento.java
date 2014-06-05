@@ -25,6 +25,10 @@ public abstract class Atendimento {
 		numeroDeAtendidos++;
 		return c;
 		
+	}	
+	
+	public boolean estaVazio() {
+		return (clienteAtual == null);
 	}
 
 	public Cliente getClienteAtual() {

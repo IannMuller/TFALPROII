@@ -1,34 +1,30 @@
 package supermercado;
 
-public class Caixa {
+public class Caixa extends Atendimento {
 	protected Cliente clienteAtual; // cliente sendo atendido no caixa
 	protected int numeroAtendidos;
 
 	public Caixa() {
-		clienteAtual = null;
-		numeroAtendidos = 0;
+		super();
 	}
 
-	public void atenderNovoCliente(Cliente c) {
-		clienteAtual = c;
+	public void atenderCliente(Cliente c) throws Exception {
+		super.atenderCliente(c);
 	}
 
 	public Cliente dispensarClienteAtual() {
-		Cliente c = clienteAtual;
-		clienteAtual = null;
-		numeroAtendidos++;
-		return c;
+		return super.dispensarClienteAtual();
 	}
 
 	public boolean estaVazio() {
-		return (clienteAtual == null);
+		return super.estaVazio();
 	}
 
 	public Cliente getClienteAtual() {
-		return clienteAtual;
+		return super.getClienteAtual();
 	}
 
 	public int getNumeroAtendidos() {
-		return numeroAtendidos;
+		return super.getNumeroDeAtendidos();
 	}
 }

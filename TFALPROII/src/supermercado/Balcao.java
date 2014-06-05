@@ -17,8 +17,9 @@ public class Balcao extends Atendimento {
 	/*
 	 * Recebe um cliente por parametro e passa para o clienteBalcao
 	 */
-	public void atenderCliente(Cliente c) {
-		super();
+	public void atenderCliente(Cliente c) throws Exception {
+		super.atenderCliente(c);
+		
 	}
 
 	/*
@@ -26,7 +27,7 @@ public class Balcao extends Atendimento {
 	 * numeroAtendimentos em 1
 	 */
 	public Cliente dispensarClienteAtual() {
-		super();
+		return super.dispensarClienteAtual();
 
 	}
 
@@ -34,21 +35,21 @@ public class Balcao extends Atendimento {
 	 * Retorna true se o balcao esta vazio
 	 */
 	public boolean estaVazio() {
-		super();
+	 	return super.estaVazio();
 	}
 
 	/*
 	 * Retorna o cliente no balcão
 	 */
 	public Cliente getClienteAtual() {
-		super();
+		return super.getClienteAtual();
 	}
 
 	/*
 	 * Retorna o numero de clientes atendidos
 	 */
 	public int getNumeroDeAtendidos() {
-		super();
+		return super.getNumeroDeAtendidos();
 	}
 
 	/*
