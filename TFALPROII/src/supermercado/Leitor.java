@@ -9,8 +9,9 @@ public class Leitor {
 	public static Properties getProp() throws IOException {
 		Properties props = new Properties();
 		FileInputStream file = new FileInputStream(
-				"./Dados.properties");
+				"./dados.properties");
 		props.load(file);
 		return props;
 	}
+	
 }
