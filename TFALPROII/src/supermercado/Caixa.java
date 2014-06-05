@@ -1,7 +1,12 @@
 package supermercado;
 
+/**
+ * Classe que simula um caixa qualquer onde o cliente realiza o pagamento
+ * de suas compras. Esta classe herda tudo contido na classe abstrata "Atendimento".
+ */
+
 public class Caixa extends Atendimento {
-	protected Cliente clienteAtual; // cliente sendo atendido no caixa
+	protected Cliente clienteAtual;
 	protected int numeroAtendidos;
 
 	public Caixa() {
