@@ -23,7 +23,7 @@ public class Simulacao {
 		trace = t;
 	}
 
-	public void simular() {
+	public void simular() throws Exception {
 		// realizar a simulacao por um certo numero de passos de duracao
 		for (int tempo = 0; tempo < duracao; tempo++) {
 			// verificar se um cliente chegou
@@ -45,7 +45,7 @@ public class Simulacao {
 				// ele existir
 				if (!fila.isEmpty()) {
 					// tirar o cliente do inicio da fila e atender no caixa
-					caixa.atenderNovoCliente(fila.dequeue());
+					caixa.atenderCliente(fila.dequeue());
 					statTemposEsperaFila.adicionar(tempo
 							- caixa.getClienteAtual().getInstanteChegada());
 					if (trace)

@@ -5,13 +5,13 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class Leitor {
-
-	public static Properties getProp() throws IOException {
-		Properties props = new Properties();
+	public Properties props;
+	public void getProp() throws IOException {
+		props = new Properties();
 		FileInputStream file = new FileInputStream(
 				"./dados.properties");
 		props.load(file);
-		return props;
+		
 	}
 	
 }
