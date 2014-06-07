@@ -1,5 +1,6 @@
 package supermercado;
 
+import java.io.IOException;
 import java.util.Random;
 
 public class Cliente {
@@ -8,12 +9,20 @@ public class Cliente {
 	private int tempoAtendimento; // quantidade de tempo que resta para o
 									// cliente no caixa
 	private static final Random gerador = new Random();
-	public static final int tempoMinAtendimento = 5;
-	public static final int tempoMaxAtendimento = 10;
-
-	public Cliente(int n, int c) {
+	public int tempoMinAtendimento;
+	public int tempoMaxAtendimento;
+	private Leitor leitor;
+	private String tempoMinAtendimentoP;
+	private String tempoMaxAtendimentoP;
+		
+	public Cliente(int n, int c) throws IOException {
+		leitor.getProp();
 		numero = n;
 		instanteChegada = c;
+		tempoMinAtendimentoP = leitor.props.getProperty("tempoMinAtendimento");
+		tempoMaxAtendimentoP = leitor.props.getProperty("tempoMaxAtendimento");
+		tempoMinAtendimento = Integer.parseInt(tempoMinAtendimentoP);
+		tempoMaxAtendimento = Integer.parseInt(tempoMaxAtendimentoP);
 		tempoAtendimento = gerador.nextInt(tempoMaxAtendimento
 				- tempoMinAtendimento + 1)
 				+ tempoMinAtendimento; // gera valores entre 5 e 20
