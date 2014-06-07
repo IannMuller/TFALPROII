@@ -77,7 +77,6 @@ public abstract class Atendimento {
 	 * 
 	 * @return numeroDeAtendidos
 	 */
-
 	public int getNumeroDeAtendidos() {
 		return numeroDeAtendidos;
 	}

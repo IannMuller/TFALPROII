@@ -39,7 +39,7 @@ public class Balcao extends Atendimento {
 	 * tido sucesso.
 	 */
 	public boolean AddFilaCaixa() {
-		Cliente c = clienteAtual;
+		Cliente c = super.clienteAtual;
 		if (filaCaixa != null) {
 			filaCaixa.enqueue(c);
 			return true;
