@@ -6,10 +6,10 @@ public class SimulacaoFarmacia {
 	/*
 	 * Classe com a logica da simulacao passo-a-passo
 	 */
-	public class Simulacao {
+	
 		private int duracao;
 		private double probabilidadeChegada;
-		private QueueTAD<Cliente> fila;
+		private QueueTAD<Cliente> filaCaixa;
 		private Caixa caixa;
 		private GeradorClientes geradorClientes;
 		private Leitor leitor;
@@ -17,17 +17,19 @@ public class SimulacaoFarmacia {
 		public Acumulador statTemposEsperaFila;
 		public Acumulador statComprimentosFila;
 		public QueueTAD<Cliente> filaB;
+		public Cliente c;
 		public boolean trace; // valor indica se a simulacao ira imprimir
 
 		// passo-a-passo os resultados
 
-		public Simulacao(boolean t) throws IOException {
+		public SimulacaoFarmacia(boolean t) throws IOException {
 			leitor.getProp();
 			String duracaoP = leitor.props.getProperty("duracao");
-			String probabilidadeChegadaP = leitor.props.getProperty("probabilidadeChegada");
+			String probabilidadeChegadaP = leitor.props
+					.getProperty("probabilidadeChegada");
 			duracao = Integer.parseInt(duracaoP);
 			probabilidadeChegada = Integer.parseInt(probabilidadeChegadaP);
-			fila = new QueueLinked<Cliente>();
+			filaCaixa = new QueueLinked<Cliente>();
 			caixa = new Caixa();
 			balcao = new Balcao();
 			geradorClientes = new GeradorClientes(probabilidadeChegada);
@@ -50,19 +52,22 @@ public class SimulacaoFarmacia {
 					if (trace)
 						System.out.println(tempo + ": cliente " + c.getNumero()
 								+ " (" + c.getTempoAtendimento()
-								+ " min) entra na fila do balcão - " + filaB.size()
-								+ " pessoa(s)");
+								+ " min) entra na fila do balcão - "
+								+ filaB.size() + " pessoa(s)");
 				}
 				// verificar se o balcão esta vazio
 				if (balcao.estaVazio()) {
-					// se o balcão esta  vazio, atender o primeiro cliente da fila
+					// se o balcão esta vazio, atender o primeiro cliente da
+					// fila
 					// se
 					// ele existir
 					if (!filaB.isEmpty()) {
 						// tirar o cliente do inicio da fila e atender no balcão
 						balcao.atenderCliente(filaB.dequeue());
-						statTemposEsperaFila.adicionar(tempo
-								- balcao.getClienteAtual().getInstanteChegada());
+						statTemposEsperaFila
+								.adicionar(tempo
+										- balcao.getClienteAtual()
+												.getInstanteChegada());
 						if (trace)
 							System.out.println(tempo + ": cliente "
 									+ balcao.getClienteAtual().getNumero()
@@ -79,23 +84,54 @@ public class SimulacaoFarmacia {
 									+ " deixa o balcao.");
 						balcao.AddFilaCaixa();
 						balcao.dispensarClienteAtual();
-											} else {
+					} else {
 						balcao.getClienteAtual().decrementarTempoAtendimento();
 					}
 				}
 				statComprimentosFila.adicionar(filaB.size());
-				
+
 				if (trace)
 					System.out.println(tempo + ": cliente " + c.getNumero()
 							+ " (" + c.getTempoAtendimento()
-							+ " min) entra na fila - " + fila.size()
+							+ " min) entra na fila - " + filaCaixa.size()
 							+ " pessoa(s)");
-			
+
+				// verificar se o caixa esta vazio
+				if (caixa.estaVazio()) {
+					// se o caixa esta vazio, atender o primeiro cliente da fila
+					// se
+					// ele existir
+					if (!filaCaixa.isEmpty()) {
+						// tirar o cliente do inicio da fila e atender no caixa
+						caixa.atenderCliente(filaCaixa.dequeue());
+						statTemposEsperaFila.adicionar(tempo
+								- caixa.getClienteAtual().getInstanteChegada());
+						if (trace)
+							System.out.println(tempo + ": cliente "
+									+ caixa.getClienteAtual().getNumero()
+									+ " chega ao caixa.");
+					} else {
+						// se o caixa ja esta ocupado, diminuir de um em um o
+						// tempo de
+						// atendimento ate chegar a zero
+						if (caixa.getClienteAtual().getTempoAtendimento() == 0) {
+							if (trace)
+								System.out.println(tempo + ": cliente "
+										+ caixa.getClienteAtual().getNumero()
+										+ " deixa o caixa.");
+							caixa.dispensarClienteAtual();
+						} else {
+							caixa.getClienteAtual()
+									.decrementarTempoAtendimento();
+						}
+					}
+					statComprimentosFila.adicionar(filaCaixa.size());
+				}
 			}
 		}
 
 		public void limpar() {
-			fila = new QueueLinked<Cliente>();
+			filaCaixa = new QueueLinked<Cliente>();
 			filaB = new QueueLinked<Cliente>();
 			balcao = new Balcao();
 			caixa = new Caixa();
@@ -104,5 +140,29 @@ public class SimulacaoFarmacia {
 			statComprimentosFila = new Acumulador();
 		}
 
+	
+
+	public void imprimirResultados() {
+		System.out.println();
+		System.out.println("Resultados da Simulacao");
+		System.out.println("Duracao:" + duracao);
+		System.out.println("Probabilidade de chegada de clientes:"
+				+ probabilidadeChegada);
+		System.out.println("Tempo de atendimento minimo:"
+				+ Cliente.tempoMinAtendimento);
+		System.out.println("Tempo de atendimento maximo:"
+				+ Cliente.tempoMaxAtendimento);
+		System.out.println("Clientes atendidos no caixa:" + caixa.getNumeroAtendidos());
+		System.out.println("Clientes ainda na fila do caixa:" + filaCaixa.size());
+		System.out.println("Cliente ainda no caixa:"
+				+ (caixa.getClienteAtual() != null));
+		System.out.println("Clintes atendidos no balcão:" + balcao.getNumeroDeAtendidos());
+		System.out.println("Clientes ainda na fila do balcão:" + filaB.size());
+		System.out.println("Total de clientes gerados:"
+				+ geradorClientes.getQuantidadeGerada());
+		System.out.println("Tempo medio de espera:"
+				+ statTemposEsperaFila.getMedia());
+		System.out.println("Comprimento medio da fila:"
+				+ statComprimentosFila.getMedia());
 	}
 }

@@ -9,8 +9,8 @@ public class Cliente {
 	private int tempoAtendimento; // quantidade de tempo que resta para o
 									// cliente no caixa
 	private static final Random gerador = new Random();
-	public int tempoMinAtendimento;
-	public int tempoMaxAtendimento;
+	public static int tempoMinAtendimento;
+	public static int tempoMaxAtendimento;
 	private Leitor leitor;
 	private String tempoMinAtendimentoP;
 	private String tempoMaxAtendimentoP;
@@ -25,7 +25,7 @@ public class Cliente {
 		tempoMaxAtendimento = Integer.parseInt(tempoMaxAtendimentoP);
 		tempoAtendimento = gerador.nextInt(tempoMaxAtendimento
 				- tempoMinAtendimento + 1)
-				+ tempoMinAtendimento; // gera valores entre 5 e 20
+				+ tempoMinAtendimento;
 	}
 
 	public int getNumero() {
