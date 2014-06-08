@@ -1,18 +1,19 @@
 package supermercado;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Properties;
 
 public class SimulacaoFarmacia {
 	/*
 	 * Classe com a logica da simulacao passo-a-passo
 	 */
-	
+
 		private int duracao;
-		private double probabilidadeChegada;
+		private float probabilidadeChegada;
 		private QueueTAD<Cliente> filaCaixa;
 		private Caixa caixa;
 		private GeradorClientes geradorClientes;
-		private Leitor leitor;
 		private Balcao balcao;
 		public Acumulador statTemposEsperaFila;
 		public Acumulador statComprimentosFila;
@@ -23,12 +24,13 @@ public class SimulacaoFarmacia {
 		// passo-a-passo os resultados
 
 		public SimulacaoFarmacia(boolean t) throws IOException {
-			leitor.getProp();
-			String duracaoP = leitor.props.getProperty("duracao");
-			String probabilidadeChegadaP = leitor.props
-					.getProperty("probabilidadeChegada");
+			Properties props = new Properties();
+			FileInputStream file = new FileInputStream("dados.properties");
+			props.load(file);
+			String duracaoP = props.getProperty("duracao");
+			String probabilidadeChegadaP = props.getProperty("probabilidadeChegada");
 			duracao = Integer.parseInt(duracaoP);
-			probabilidadeChegada = Integer.parseInt(probabilidadeChegadaP);
+			probabilidadeChegada = Float.parseFloat(probabilidadeChegadaP);
 			filaCaixa = new QueueLinked<Cliente>();
 			caixa = new Caixa();
 			balcao = new Balcao();
@@ -42,14 +44,13 @@ public class SimulacaoFarmacia {
 		public void simular() throws Exception {
 			// realizar a simulacao por um certo numero de passos de duracao
 			for (int tempo = 0; tempo < duracao; tempo++) {
+				c= new Cliente(geradorClientes.getQuantidadeGerada(), tempo);
 				// verificar se um cliente chegou
 				if (geradorClientes.gerar()) {
-					// se cliente chegou, criar um cliente e inserir na fila do
+					// se cliente chegou, insere na fila do
 					// balcão
-					Cliente c = new Cliente(
-							geradorClientes.getQuantidadeGerada(), tempo);
 					filaB.enqueue(c);
-					if (trace)
+					if (trace && geradorClientes.gerar()==true)
 						System.out.println(tempo + ": cliente " + c.getNumero()
 								+ " (" + c.getTempoAtendimento()
 								+ " min) entra na fila do balcão - "
@@ -64,10 +65,7 @@ public class SimulacaoFarmacia {
 					if (!filaB.isEmpty()) {
 						// tirar o cliente do inicio da fila e atender no balcão
 						balcao.atenderCliente(filaB.dequeue());
-						statTemposEsperaFila
-								.adicionar(tempo
-										- balcao.getClienteAtual()
-												.getInstanteChegada());
+						statTemposEsperaFila.adicionar(tempo- balcao.getClienteAtual().getInstanteChegada());
 						if (trace)
 							System.out.println(tempo + ": cliente "
 									+ balcao.getClienteAtual().getNumero()
@@ -82,20 +80,19 @@ public class SimulacaoFarmacia {
 							System.out.println(tempo + ": cliente "
 									+ balcao.getClienteAtual().getNumero()
 									+ " deixa o balcao.");
-						balcao.AddFilaCaixa();
+						filaCaixa.enqueue(c);
+						System.out.println(tempo + ": cliente " + c.getNumeroAux()
+									+ " (" + c.getTempoAtendimento()
+									+ " min) entra na fila do caixa - " + filaCaixa.size()
+									+ " pessoa(s)");
 						balcao.dispensarClienteAtual();
-					} else {
+											} else {
 						balcao.getClienteAtual().decrementarTempoAtendimento();
 					}
 				}
 				statComprimentosFila.adicionar(filaB.size());
 
-				if (trace)
-					System.out.println(tempo + ": cliente " + c.getNumero()
-							+ " (" + c.getTempoAtendimento()
-							+ " min) entra na fila - " + filaCaixa.size()
-							+ " pessoa(s)");
-
+			
 				// verificar se o caixa esta vazio
 				if (caixa.estaVazio()) {
 					// se o caixa esta vazio, atender o primeiro cliente da fila
@@ -114,15 +111,15 @@ public class SimulacaoFarmacia {
 						// se o caixa ja esta ocupado, diminuir de um em um o
 						// tempo de
 						// atendimento ate chegar a zero
-						if (caixa.getClienteAtual().getTempoAtendimento() == 0) {
+						if (c.getTempoAtendimento() == 0) {
 							if (trace)
 								System.out.println(tempo + ": cliente "
 										+ caixa.getClienteAtual().getNumero()
 										+ " deixa o caixa.");
 							caixa.dispensarClienteAtual();
 						} else {
-							caixa.getClienteAtual()
-									.decrementarTempoAtendimento();
+							
+									c.decrementarTempoAtendimento();
 						}
 					}
 					statComprimentosFila.adicionar(filaCaixa.size());
@@ -140,7 +137,7 @@ public class SimulacaoFarmacia {
 			statComprimentosFila = new Acumulador();
 		}
 
-	
+
 
 	public void imprimirResultados() {
 		System.out.println();

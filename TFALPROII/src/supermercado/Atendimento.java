@@ -32,12 +32,12 @@ public abstract class Atendimento {
 	 * @throws Exception
 	 * 		   Se já existe um cliente sendo atendido 
 	*/
-	public void atenderCliente (Cliente c)  throws Exception{
+	public void atenderCliente (Cliente v)  throws Exception{
 		if (clienteAtual!=null){
 			Exception e = new Exception("já existe um cliente sendo atendido");
 			throw e;
 		}
-		clienteAtual = c;
+		clienteAtual = v;
 	}
 	
 	/**

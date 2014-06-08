@@ -14,7 +14,7 @@ public class Balcao extends Atendimento {
 
 	public void atenderCliente(Cliente c) throws Exception {
 		super.atenderCliente(c);
-		
+
 	}
 
 	public Cliente dispensarClienteAtual() {
@@ -40,12 +40,9 @@ public class Balcao extends Atendimento {
 	 */
 	public boolean AddFilaCaixa() {
 		Cliente c = super.clienteAtual;
-		if (filaCaixa != null) {
-			filaCaixa.enqueue(c);
+		filaCaixa.enqueue(c);
 			return true;
-		} else {
-			return false;
-		}
+		
 	}
 
 }

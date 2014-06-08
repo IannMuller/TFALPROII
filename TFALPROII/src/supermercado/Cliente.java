@@ -1,35 +1,36 @@
 package supermercado;
 
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Random;
+import java.util.Properties;
 
 public class Cliente {
 	private int numero; // número do cliente
 	private int instanteChegada;
-	private int tempoAtendimento; // quantidade de tempo que resta para o
+	static int tempoMinAtendimento;
+	static int tempoMaxAtendimento;
+	public int tempoAtendimento; // quantidade de tempo que resta para o
 									// cliente no caixa
-	private static final Random gerador = new Random();
-	public static int tempoMinAtendimento;
-	public static int tempoMaxAtendimento;
-	private Leitor leitor;
-	private String tempoMinAtendimentoP;
-	private String tempoMaxAtendimentoP;
-		
+
 	public Cliente(int n, int c) throws IOException {
-		leitor.getProp();
-		numero = n;
-		instanteChegada = c;
-		tempoMinAtendimentoP = leitor.props.getProperty("tempoMinAtendimento");
-		tempoMaxAtendimentoP = leitor.props.getProperty("tempoMaxAtendimento");
+		Properties props = new Properties();
+		FileInputStream file = new FileInputStream("dados.properties");
+		props.load(file);
+		String tempoMinAtendimentoP = props.getProperty("tempoMinAtendimento");
+		String tempoMaxAtendimentoP = props.getProperty("tempoMaxAtendimento");
 		tempoMinAtendimento = Integer.parseInt(tempoMinAtendimentoP);
 		tempoMaxAtendimento = Integer.parseInt(tempoMaxAtendimentoP);
-		tempoAtendimento = gerador.nextInt(tempoMaxAtendimento
-				- tempoMinAtendimento + 1)
-				+ tempoMinAtendimento;
+		numero = n;
+		instanteChegada = c;
+		tempoAtendimento = (tempoMaxAtendimento - tempoMinAtendimento + 1);
+
 	}
 
 	public int getNumero() {
 		return numero;
+	}
+	public void setNumero(int aux){
+		numero = aux;
 	}
 
 	public int getInstanteChegada() {

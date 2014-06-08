@@ -8,19 +8,20 @@ public class Simulacao {
 	protected static final double probabilidadeChegada = 0.1;
 	protected QueueTAD<Cliente> fila;
 	protected Caixa caixa;
+	public Leitor leitor;
 	protected GeradorClientes geradorClientes;
 	public Acumulador statTemposEsperaFila;
 	public Acumulador statComprimentosFila;
-	public static boolean trace; // valor indica se a simulacao ira imprimir
+	public static boolean trace = true; // valor indica se a simulacao ira imprimir
 							// passo-a-passo os resultados
 
-	public Simulacao(boolean t) {
+	public Simulacao(boolean trace) {
 		fila = new QueueLinked<Cliente>();
 		caixa = new Caixa();
 		geradorClientes = new GeradorClientes(probabilidadeChegada);
 		statTemposEsperaFila = new Acumulador();
 		statComprimentosFila = new Acumulador();
-		trace = t;
+		trace = true;
 	}
 
 	public void simular() throws Exception {
