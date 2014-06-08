@@ -29,8 +29,9 @@ public class Cliente {
 	public int getNumero() {
 		return numero;
 	}
-	public void setNumero(int aux){
-		numero = aux;
+	public int getNumeroAux(){
+		numero = numero -1;
+		return numero;
 	}
 
 	public int getInstanteChegada() {

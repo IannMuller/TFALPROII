@@ -81,12 +81,12 @@ public class SimulacaoFarmacia {
 									+ balcao.getClienteAtual().getNumero()
 									+ " deixa o balcao.");
 						filaCaixa.enqueue(c);
+						balcao.dispensarClienteAtual();
 						System.out.println(tempo + ": cliente " + c.getNumeroAux()
 									+ " (" + c.getTempoAtendimento()
 									+ " min) entra na fila do caixa - " + filaCaixa.size()
 									+ " pessoa(s)");
-						balcao.dispensarClienteAtual();
-											} else {
+					 } else {
 						balcao.getClienteAtual().decrementarTempoAtendimento();
 					}
 				}
