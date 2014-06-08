@@ -10,39 +10,40 @@ import java.util.Properties;
  */
 
 public class Leitor {
-	public Properties props;
-	public static int tempoMinAtendimento;
-	public static int tempoMaxAtendimento;
-	public static int duracao;
-	public static float probabilidadeChegada;
+	private static int tempoMinAtendimento;
+	private static int tempoMaxAtendimento;
+	private static int duracao;
+	private static float probabilidadeChegada;
 
-	public static Properties getProps() throws IOException {
+	public static void getProps() throws IOException {
 		Properties props = new Properties();
 		FileInputStream file = new FileInputStream("dados.properties");
 		props.load(file);
 		
+		String tMin = props.getProperty("tempoMinAtendimento");
+		String tMax = props.getProperty("tempoMaxAtendimento");
 		String duracaoP = props.getProperty("duracao");
 		String probabilidadeChegadaP = props.getProperty("probabilidadeChegada");
+		
+		tempoMinAtendimento = Integer.parseInt(tMin);
+		tempoMaxAtendimento = Integer.parseInt(tMax);
 		duracao = Integer.parseInt(duracaoP);
 		probabilidadeChegada = Float.parseFloat(probabilidadeChegadaP);
-
-		return props;
 	}
 
-	public int getTempoMinAtendimento() {
+	public static int getTempoMinAtendimento() {
 		return tempoMinAtendimento;
-
 	}
 
-	public int getTempoMaxAtendimento() {
+	public static int getTempoMaxAtendimento() {
 		return tempoMaxAtendimento;
 	}
 
-	public int getDuracao() {
+	public static int getDuracao() {
 		return duracao;
 	}
 
-	public float getProbabilidade() {
+	public static float getProbabilidade() {
 		return probabilidadeChegada;
 	}
 }

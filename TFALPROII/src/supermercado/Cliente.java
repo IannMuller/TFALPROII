@@ -1,36 +1,30 @@
 package supermercado;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Properties;
+import java.util.Random;
 
 public class Cliente {
 	private int numero; // número do cliente
 	private int instanteChegada;
-	static int tempoMinAtendimento;
-	static int tempoMaxAtendimento;
-	public int tempoAtendimento; // quantidade de tempo que resta para o
+	private int tempoMinAtendimento;
+	private int tempoMaxAtendimento;
+	private Random random;
+	private int tempoAtendimento; // quantidade de tempo que resta para o
 									// cliente no caixa
 
 	public Cliente(int n, int c) throws IOException {
-		Properties props = new Properties();
-		FileInputStream file = new FileInputStream("dados.properties");
-		props.load(file);
-		String tempoMinAtendimentoP = props.getProperty("tempoMinAtendimento");
-		String tempoMaxAtendimentoP = props.getProperty("tempoMaxAtendimento");
-		tempoMinAtendimento = Integer.parseInt(tempoMinAtendimentoP);
-		tempoMaxAtendimento = Integer.parseInt(tempoMaxAtendimentoP);
+		random = new Random();
+		Leitor.getProps();
+
+		tempoMinAtendimento = Leitor.getTempoMinAtendimento();
+		tempoMaxAtendimento = Leitor.getTempoMaxAtendimento();
 		numero = n;
 		instanteChegada = c;
-		tempoAtendimento = (tempoMaxAtendimento - tempoMinAtendimento + 1);
+		tempoAtendimento = random.nextInt(tempoMaxAtendimento - tempoMinAtendimento) + tempoMinAtendimento;
 
 	}
 
 	public int getNumero() {
-		return numero;
-	}
-	public int getNumeroAux(){
-		numero = numero -1;
 		return numero;
 	}
 
@@ -44,5 +38,10 @@ public class Cliente {
 
 	public int getTempoAtendimento() {
 		return tempoAtendimento;
+	}
+	
+	public String toString(){
+		String s = ("Número: " + numero + "\nInstante de Chegada: "+ instanteChegada + "\nTempo de Atendimento: " + tempoAtendimento);
+		return s;
 	}
 }
