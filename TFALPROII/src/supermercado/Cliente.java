@@ -20,7 +20,9 @@ public class Cliente {
 		tempoMaxAtendimento = Leitor.getTempoMaxAtendimento();
 		numero = n;
 		instanteChegada = c;
-		tempoAtendimento = random.nextInt(tempoMaxAtendimento - tempoMinAtendimento) + tempoMinAtendimento;
+		tempoAtendimento = random.nextInt(tempoMaxAtendimento
+				- tempoMinAtendimento)
+				+ tempoMinAtendimento;
 
 	}
 
@@ -39,9 +41,10 @@ public class Cliente {
 	public int getTempoAtendimento() {
 		return tempoAtendimento;
 	}
-	
-	public String toString(){
-		String s = ("Número: " + numero + "\nInstante de Chegada: "+ instanteChegada + "\nTempo de Atendimento: " + tempoAtendimento);
+
+	public String toString() {
+		String s = ("Número: " + numero + "\nInstante de Chegada: "
+				+ instanteChegada + "\nTempo de Atendimento: " + tempoAtendimento);
 		return s;
 	}
 }

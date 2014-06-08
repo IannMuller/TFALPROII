@@ -8,7 +8,6 @@ public class Simulacao {
 	protected static final double probabilidadeChegada = 0.1;
 	protected QueueTAD<Cliente> fila;
 	protected Caixa caixa;
-	public Leitor leitor;
 	protected GeradorClientes geradorClientes;
 	public Acumulador statTemposEsperaFila;
 	public Acumulador statComprimentosFila;
@@ -86,9 +85,9 @@ public class Simulacao {
 		System.out.println("Probabilidade de chegada de clientes:"
 				+ probabilidadeChegada);
 		System.out.println("Tempo de atendimento minimo:"
-				+ Cliente.tempoMinAtendimento);
+				+ Leitor.getTempoMinAtendimento());
 		System.out.println("Tempo de atendimento maximo:"
-				+ Cliente.tempoMaxAtendimento);
+				+ Leitor.getTempoMaxAtendimento());
 		System.out.println("Cliente atendidos:" + caixa.getNumeroAtendidos());
 		System.out.println("Clientes ainda na fila:" + fila.size());
 		System.out.println("Cliente ainda no caixa:"

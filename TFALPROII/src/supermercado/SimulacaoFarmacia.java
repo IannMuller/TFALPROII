@@ -84,7 +84,7 @@ public class SimulacaoFarmacia {
 								+ " deixa o balcao.");
 					filaCaixa.enqueue(c);
 					balcao.dispensarClienteAtual();
-					System.out.println(tempo + ": cliente " + c.getNumeroAux()
+					System.out.println(tempo + ": cliente " + c.getNumero()
 							+ " (" + c.getTempoAtendimento()
 							+ " min) entra na fila do caixa - "
 							+ filaCaixa.size() + " pessoa(s)");
@@ -126,9 +126,9 @@ public class SimulacaoFarmacia {
 					}
 					statComprimentosFila.adicionar(filaCaixa.size());
 				}
-			
+
 		}
-	
+
 
 	public void limpar() {
 		filaCaixa = new QueueLinked<Cliente>();
@@ -147,9 +147,9 @@ public class SimulacaoFarmacia {
 		System.out.println("Probabilidade de chegada de clientes:"
 				+ probabilidadeChegada);
 		System.out.println("Tempo de atendimento minimo:"
-				+ Cliente.tempoMinAtendimento);
+				+ Leitor.getTempoMinAtendimento());
 		System.out.println("Tempo de atendimento maximo:"
-				+ Cliente.tempoMaxAtendimento);
+				+ Leitor.getTempoMaxAtendimento());
 		System.out.println("Clientes atendidos no caixa:"
 				+ caixa.getNumeroAtendidos());
 		System.out.println("Clientes ainda na fila do caixa:"
