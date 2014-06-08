@@ -45,11 +45,11 @@ public class SimulacaoFarmacia {
 	public void simular() throws Exception {
 		// realizar a simulacao por um certo numero de passos de duracao
 		for (int tempo = 0; tempo < duracao; tempo++) {
-			c = new Cliente(geradorClientes.getQuantidadeGerada(), tempo);
 			// verificar se um cliente chegou
 			if (geradorClientes.gerar()) {
 				// se cliente chegou, insere na fila do
 				// balcão
+				c = new Cliente(geradorClientes.getQuantidadeGerada(), tempo);
 				filaB.enqueue(c);
 				if (trace && geradorClientes.gerar() == true)
 					System.out.println(tempo + ": cliente " + c.getNumero()
@@ -82,13 +82,14 @@ public class SimulacaoFarmacia {
 						System.out.println(tempo + ": cliente "
 								+ balcao.getClienteAtual().getNumero()
 								+ " deixa o balcao.");
-					filaCaixa.enqueue(c);
-					balcao.dispensarClienteAtual();
-					System.out.println(tempo + ": cliente " + c.getNumero()
+					filaCaixa.enqueue(balcao.getClienteAtual());
+					System.out.println(tempo + ": cliente " + balcao.getClienteAtual().getNumero()
 							+ " (" + c.getTempoAtendimento()
 							+ " min) entra na fila do caixa - "
 							+ filaCaixa.size() + " pessoa(s)");
-				} else {
+				
+				balcao.dispensarClienteAtual();
+			}else {
 					balcao.getClienteAtual().decrementarTempoAtendimento();
 				}
 			}
