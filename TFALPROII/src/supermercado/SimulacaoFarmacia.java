@@ -1,8 +1,6 @@
 package supermercado;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Properties;
 
 public class SimulacaoFarmacia {
 	/*
@@ -15,23 +13,18 @@ public class SimulacaoFarmacia {
 	private Caixa caixa;
 	private GeradorClientes geradorClientes;
 	private Balcao balcao;
+	private QueueTAD<Cliente> filaB;
 	public Acumulador statTemposEsperaFila;
 	public Acumulador statComprimentosFila;
-	public QueueTAD<Cliente> filaB;
-	public Cliente c;
 	public boolean trace; // valor indica se a simulacao ira imprimir
 
 	// passo-a-passo os resultados
 
 	public SimulacaoFarmacia(boolean t) throws IOException {
-		Properties props = new Properties();
-		FileInputStream file = new FileInputStream("dados.properties");
-		props.load(file);
-		String duracaoP = props.getProperty("duracao");
-		String probabilidadeChegadaP = props
-				.getProperty("probabilidadeChegada");
-		duracao = Integer.parseInt(duracaoP);
-		probabilidadeChegada = Float.parseFloat(probabilidadeChegadaP);
+		Leitor.getProps();
+		
+		duracao = Leitor.getDuracao();
+		probabilidadeChegada = Leitor.getProbabilidade();
 		filaCaixa = new QueueLinked<Cliente>();
 		caixa = new Caixa();
 		balcao = new Balcao();
@@ -49,9 +42,9 @@ public class SimulacaoFarmacia {
 			if (geradorClientes.gerar()) {
 				// se cliente chegou, insere na fila do
 				// balcão
-				c = new Cliente(geradorClientes.getQuantidadeGerada(), tempo);
+				Cliente c = new Cliente(geradorClientes.getQuantidadeGerada(), tempo);
 				filaB.enqueue(c);
-				if (trace && geradorClientes.gerar() == true)
+				if (trace)
 					System.out.println(tempo + ": cliente " + c.getNumero()
 							+ " (" + c.getTempoAtendimento()
 							+ " min) entra na fila do balcão - " + filaB.size()
@@ -88,7 +81,7 @@ public class SimulacaoFarmacia {
 					
 					if (trace)
 					System.out.println(tempo + ": cliente " + balcao.getClienteAtual().getNumero()
-							+ " (" + c.getTempoAtendimento()
+							+ " (" + balcao.getClienteAtual().getTempoAtendimento()
 							+ " min) entra na fila do caixa - "
 							+ filaCaixa.size() + " pessoa(s)");
 				

@@ -6,7 +6,6 @@ package supermercado;
  */
 
 public class Balcao extends Atendimento {
-	public QueueTAD<Cliente> filaCaixa;
 
 	public Balcao() {
 		super();
@@ -32,17 +31,6 @@ public class Balcao extends Atendimento {
 
 	public int getNumeroDeAtendidos() {
 		return super.getNumeroDeAtendidos();
-	}
-
-	/**
-	 * Adiciona o cliente do balcao na fila do caixa e retorna true caso tenha
-	 * tido sucesso.
-	 */
-	public boolean AddFilaCaixa() {
-		Cliente c = super.clienteAtual;
-		filaCaixa.enqueue(c);
-			return true;
-		
 	}
 
 }
