@@ -2,7 +2,7 @@ package supermercado;
 
 import java.io.IOException;
 
-public class SimulacaoFarmacia {
+public class SimulacaoFarmacia extends Simulacao {
 	/*
 	 * Classe com a logica da simulacao passo-a-passo
 	 */
@@ -16,13 +16,15 @@ public class SimulacaoFarmacia {
 	private QueueTAD<Cliente> filaB;
 	public Acumulador statTemposEsperaFila;
 	public Acumulador statComprimentosFila;
-	public boolean trace; // valor indica se a simulacao ira imprimir
+	public static boolean trace = true; // valor indica se a simulacao ira
+										// imprimir
 
 	// passo-a-passo os resultados
 
-	public SimulacaoFarmacia(boolean t) throws IOException {
+	public SimulacaoFarmacia(boolean trace) throws IOException {
+		super(trace);
 		Leitor.getProps();
-		
+
 		duracao = Leitor.getDuracao();
 		probabilidadeChegada = Leitor.getProbabilidade();
 		filaCaixa = new QueueLinked<Cliente>();
@@ -31,10 +33,17 @@ public class SimulacaoFarmacia {
 		geradorClientes = new GeradorClientes(probabilidadeChegada);
 		statTemposEsperaFila = new Acumulador();
 		statComprimentosFila = new Acumulador();
-		trace = t;
 		filaB = new QueueLinked<Cliente>();
 	}
 
+	/**
+	 * Método responsavel pela simulação. Cria uma excessão quando algum objeto
+	 * receber null.
+	 * 
+	 * @throws Exception
+	 *             Se alguma parte das listas estiverem null retorna
+	 *             NullPointerException.
+	 */
 	public void simular() throws Exception {
 		// realizar a simulacao por um certo numero de passos de duracao
 		for (int tempo = 0; tempo < duracao; tempo++) {
@@ -42,7 +51,8 @@ public class SimulacaoFarmacia {
 			if (geradorClientes.gerar()) {
 				// se cliente chegou, insere na fila do
 				// balcão
-				Cliente c = new Cliente(geradorClientes.getQuantidadeGerada(), tempo);
+				Cliente c = new Cliente(geradorClientes.getQuantidadeGerada(),
+						tempo);
 				filaB.enqueue(c);
 				if (trace)
 					System.out.println(tempo + ": cliente " + c.getNumero()
@@ -75,18 +85,22 @@ public class SimulacaoFarmacia {
 						System.out.println(tempo + ": cliente "
 								+ balcao.getClienteAtual().getNumero()
 								+ " deixa o balcao.");
-				
-				balcao.getClienteAtual().modifyTempoAtendimento();
-				filaCaixa.enqueue(balcao.getClienteAtual());
-					
+
+					balcao.getClienteAtual().modifyTempoAtendimento();
+					filaCaixa.enqueue(balcao.getClienteAtual());
+
 					if (trace)
-					System.out.println(tempo + ": cliente " + balcao.getClienteAtual().getNumero()
-							+ " (" + balcao.getClienteAtual().getTempoAtendimento()
-							+ " min) entra na fila do caixa - "
-							+ filaCaixa.size() + " pessoa(s)");
-				
-				balcao.dispensarClienteAtual();
-			}else {
+						System.out.println(tempo
+								+ ": cliente "
+								+ balcao.getClienteAtual().getNumero()
+								+ " ("
+								+ balcao.getClienteAtual()
+										.getTempoAtendimento()
+								+ " min) entra na fila do caixa - "
+								+ filaCaixa.size() + " pessoa(s)");
+
+					balcao.dispensarClienteAtual();
+				} else {
 					balcao.getClienteAtual().decrementarTempoAtendimento();
 				}
 			}
@@ -102,7 +116,7 @@ public class SimulacaoFarmacia {
 					caixa.atenderCliente(filaCaixa.dequeue());
 					statTemposEsperaFila.adicionar(tempo
 							- caixa.getClienteAtual().getInstanteChegada());
-					if (trace) 
+					if (trace)
 						System.out.println(tempo + ": cliente "
 								+ caixa.getClienteAtual().getNumero()
 								+ " chega ao caixa.");
@@ -116,18 +130,20 @@ public class SimulacaoFarmacia {
 						System.out.println(tempo + ": cliente "
 								+ caixa.getClienteAtual().getNumero()
 								+ " deixa o caixa.");
-							caixa.dispensarClienteAtual();
-						} else {
+					caixa.dispensarClienteAtual();
+				} else {
 
-							caixa.getClienteAtual().decrementarTempoAtendimento();
-						}
-					}
-					statComprimentosFila.adicionar(filaCaixa.size());
+					caixa.getClienteAtual().decrementarTempoAtendimento();
 				}
-
+			}
+			statComprimentosFila.adicionar(filaCaixa.size());
 		}
 
+	}
 
+	/**
+	 * Reinicia os objetos.
+	 */
 	public void limpar() {
 		filaCaixa = new QueueLinked<Cliente>();
 		filaB = new QueueLinked<Cliente>();
@@ -138,6 +154,9 @@ public class SimulacaoFarmacia {
 		statComprimentosFila = new Acumulador();
 	}
 
+	/**
+	 * Imprime os resultados
+	 */
 	public void imprimirResultados() {
 		System.out.println();
 		System.out.println("Resultados da Simulacao");

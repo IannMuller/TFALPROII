@@ -1,7 +1,7 @@
 package supermercado;
 
 /*
- * Programa principal da simulacao
+ * Programa principal da simulacao do supermercado.
  */
 public class SimuladorSupermercado {
 	public static void main(String[] args) throws Exception {

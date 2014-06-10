@@ -2,9 +2,17 @@ package supermercado;
 
 public class QueueLinked<E> implements QueueTAD<E> {
 	private static final class Node<E> {
+		/** Guarda o valor de um objeto do nodo. */
 		public E element;
+		/** Variavel usada para pegar o proximo nodo. */
 		public Node<E> next;
 
+		/**
+		 * Classe interna do nodo.
+		 * 
+		 * @param e
+		 *            O elemento que será passado pro nodo
+		 */
 		public Node(E e) {
 			element = e;
 			next = null;

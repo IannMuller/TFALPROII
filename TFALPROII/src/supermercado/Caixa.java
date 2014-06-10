@@ -6,7 +6,9 @@ package supermercado;
  */
 
 public class Caixa extends Atendimento {
+	/** Guarda o valor do cliente que está sendo atendido atualmente. */
 	protected Cliente clienteAtual;
+	/** Guarda o valor do numero de clientes atendidos */
 	protected int numeroAtendidos;
 
 	public Caixa() {
