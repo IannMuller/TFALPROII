@@ -16,11 +16,16 @@ public class Cliente {
 	/** Momento em que o cliente chega */
 	private int instanteChegada;
 
-	/** Gerador randômico para decidir tempo de atendimento */
-	private Random random;
+	/**
+	 * Gerador randômico para decidir tempo de atendimento e se o cliente é
+	 * preferencial ou não
+	 */
+	private Random random = new Random();
 
 	/** Tempo que o cliente demorará no momento do atendimento */
 	private int tempoAtendimento;
+	/** variavel que determina se o cliente será ou não preferencial */
+	private int preferencia;
 
 	/**
 	 * Construtor da classe. A partir de um leitor, recebe-se os valores de
@@ -41,6 +46,8 @@ public class Cliente {
 		numero = n;
 		instanteChegada = c;
 
+		preferencia = random.nextInt(50);
+
 		modifyTempoAtendimento();
 	}
 
@@ -51,7 +58,6 @@ public class Cliente {
 	 *             Proveniente da classe "Leitor"
 	 */
 	public void modifyTempoAtendimento() throws IOException {
-		random = new Random();
 		Leitor.getProps();
 
 		int tempoMinAtendimento = Leitor.getTempoMinAtendimento();
@@ -102,6 +108,14 @@ public class Cliente {
 	 * @return String com numero, instanteChegada e tempoAtendimento
 	 * 
 	 */
+	public void Preferencia() {
+		if (preferencia >= 35) {
+			System.out.println("Cliente preferencial");
+		} else {
+			System.out.println("Cliente normal");
+		}
+	}
+
 	public String toString() {
 		String s = ("Número: " + numero + "\nInstante de Chegada: "
 				+ instanteChegada + "\nTempo de Atendimento: " + tempoAtendimento);
