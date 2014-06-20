@@ -60,8 +60,7 @@ public class SimulacaoFarmacia extends Simulacao {
 				if (c.getNumeroPreferencia() < 35) {
 					filaBalcao.enqueue(c);
 					if (trace)
-						System.out.println(tempo + c.getPreferencia() + " "
-								+ c.getNumero() + " (" + c.getTempoAtendimento()
+						System.out.println(tempo + " cliente " + c.getNumero() + " (" + c.getTempoAtendimento()
 								+ " min) entra na fila do balcão - "
 								+ filaBalcaoPreferencial.size() + " pessoa(s)");
 				} 
@@ -69,8 +68,7 @@ public class SimulacaoFarmacia extends Simulacao {
 					filaBalcaoPreferencial.enqueue(c);
 				
 				if (trace)
-					System.out.println(tempo + c.getPreferencia() + " "
-							+ c.getNumero() + " (" + c.getTempoAtendimento()
+					System.out.println(tempo + " cliente " + c.getNumero() + " (" + c.getTempoAtendimento()
 							+ " min) entra na fila do balcão preferencial - "
 							+ filaBalcaoPreferencial.size() + " pessoa(s)");
 				}
@@ -87,7 +85,7 @@ public class SimulacaoFarmacia extends Simulacao {
 					statTemposEsperaFila.adicionar(tempo
 							- balcao.getClienteAtual().getInstanteChegada());
 					if (trace)
-						System.out.println(tempo + balcao.getClienteAtual().getPreferencia() +" "
+						System.out.println(tempo + " cliente "
 								+ balcao.getClienteAtual().getNumero()
 								+ " chega ao balcão preferencial.");
 					}
@@ -99,7 +97,7 @@ public class SimulacaoFarmacia extends Simulacao {
 					statTemposEsperaFila.adicionar(tempo
 							- balcao.getClienteAtual().getInstanteChegada());
 						if (trace)
-							System.out.println(tempo + balcao.getClienteAtual().getPreferencia() +" "
+							System.out.println(tempo + " cliente "
 								+ balcao.getClienteAtual().getNumero()
 								+ " chega ao balcão.");
 						}
@@ -112,13 +110,13 @@ public class SimulacaoFarmacia extends Simulacao {
 				if (balcao.getClienteAtual().getTempoAtendimento() == 0) {
 					if(balcao.getClienteAtual().getNumeroPreferencia()<35){
 						if (trace)
-							System.out.println(tempo + balcao.getClienteAtual().getPreferencia() + " "
+							System.out.println(tempo + " cliente "
 								+ balcao.getClienteAtual().getNumero()
 								+ " deixa o balcao.");
 					}
 					if(balcao.getClienteAtual().getNumeroPreferencia()>=35){
 						if (trace)
-							System.out.println(tempo + balcao.getClienteAtual().getPreferencia() + " "
+							System.out.println(tempo + " cliente "
 								+ balcao.getClienteAtual().getNumero()
 								+ " deixa o balcao preferencial.");
 					}
@@ -126,7 +124,7 @@ public class SimulacaoFarmacia extends Simulacao {
 					if (balcao.getClienteAtual().getNumeroPreferencia() < 35) {
 						filaCaixa.enqueue(balcao.getClienteAtual());
 						if (trace)
-							System.out.println(tempo + balcao.getClienteAtual().getPreferencia() +" " 
+							System.out.println(tempo + " cliente "
 								+ balcao.getClienteAtual().getNumero()
 								+ " (" + balcao.getClienteAtual().getTempoAtendimento()
 								+ " min) entra na fila do caixa - " + filaCaixa.size() + " pessoa(s)");
@@ -134,7 +132,7 @@ public class SimulacaoFarmacia extends Simulacao {
 					if (balcao.getClienteAtual().getNumeroPreferencia() >= 35) {
 						filaCaixaPreferencial.enqueue(balcao.getClienteAtual());
 						if (trace)
-							System.out.println(tempo + balcao.getClienteAtual().getPreferencia() + " "
+							System.out.println(tempo + " cliente "
 								+ balcao.getClienteAtual().getNumero()
 								+ " (" + balcao.getClienteAtual().getTempoAtendimento()
 								+ " min) entra na fila do caixa preferencial - " + filaCaixaPreferencial.size() + " pessoa(s)");
@@ -158,7 +156,7 @@ public class SimulacaoFarmacia extends Simulacao {
 					statTemposEsperaFila.adicionar(tempo
 							- caixa.getClienteAtual().getInstanteChegada());
 					if (trace)
-						System.out.println(tempo + caixa.getClienteAtual().getPreferencia() + " "
+						System.out.println(tempo + " cliente "
 								+ caixa.getClienteAtual().getNumero()
 								+ " chega ao caixa preferencial.");
 					}
@@ -170,7 +168,7 @@ public class SimulacaoFarmacia extends Simulacao {
 					statTemposEsperaFila.adicionar(tempo
 							- caixa.getClienteAtual().getInstanteChegada());
 						if (trace)
-						System.out.println(tempo + caixa.getClienteAtual().getPreferencia() + " "
+						System.out.println(tempo + " cliente "
 								+ caixa.getClienteAtual().getNumero() + " chega ao caixa.");
 						}
 					}
@@ -182,15 +180,13 @@ public class SimulacaoFarmacia extends Simulacao {
 				if (caixa.getClienteAtual().getTempoAtendimento() == 0) {
 					if(caixa.getClienteAtual().getNumeroPreferencia()<35){
 					if (trace)
-						System.out.println(tempo  + caixa.getClienteAtual().getPreferencia() + " "
-								+ caixa.getClienteAtual().getNumero()
-								+ " deixa o caixa.");
+						System.out.println(tempo  + " cliente " + caixa.getClienteAtual().getNumero()
+							+ " deixa o caixa.");
 						}
 					if(caixa.getClienteAtual().getNumeroPreferencia()>=35){
 						if (trace)
-							System.out.println(tempo + caixa.getClienteAtual().getPreferencia() + " "
-									+ caixa.getClienteAtual().getNumero()
-									+ " deixa o caixa preferencial.");
+							System.out.println(tempo + " cliente " + caixa.getClienteAtual().getNumero()
+								+ " deixa o caixa preferencial.");
 						}
 						caixa.dispensarClienteAtual();
 					}
