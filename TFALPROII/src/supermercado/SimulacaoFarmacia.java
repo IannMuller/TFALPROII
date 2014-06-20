@@ -62,7 +62,7 @@ public class SimulacaoFarmacia extends Simulacao {
 					if (trace)
 						System.out.println(tempo + " cliente " + c.getNumero() + " (" + c.getTempoAtendimento()
 								+ " min) entra na fila do balcão - "
-								+ filaBalcaoPreferencial.size() + " pessoa(s)");
+								+ filaBalcao.size() + " pessoa(s)");
 				} 
 				if(c.getNumeroPreferencia()>=35) {
 					filaBalcaoPreferencial.enqueue(c);
