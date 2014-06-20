@@ -101,24 +101,35 @@ public class Cliente {
 	public int getTempoAtendimento() {
 		return tempoAtendimento;
 	}
-
+/**
+ * Retorna se o cliente é preferencial ou não 
+ * 
+ * @return d ou s
+ */
+	public String getPreferencia() {
+		if (preferencia >= 35) {
+			String d = "Cliente preferencial";
+			return d;
+		}
+		String s = "Cliente normal";
+		return s;
+	}
+	/**
+	 * Retorna o numero randomico armazenado em preferencia.
+	 * 
+	 * @return preferencia
+	 */
+	public int getNumeroPreferencia(){
+		return preferencia;
+	}
 	/**
 	 * Informa os dados pricipais do cliente em forma de String
 	 * 
-	 * @return String com numero, instanteChegada e tempoAtendimento
-	 * 
 	 */
-	public void Preferencia() {
-		if (preferencia >= 35) {
-			System.out.println("Cliente preferencial");
-		} else {
-			System.out.println("Cliente normal");
-		}
-	}
-
-	public String toString() {
+	 public String toString() {
 		String s = ("Número: " + numero + "\nInstante de Chegada: "
-				+ instanteChegada + "\nTempo de Atendimento: " + tempoAtendimento);
+				+ instanteChegada + "\nTempo de Atendimento: "
+				+ tempoAtendimento + "\n" + getPreferencia());
 		return s;
 	}
 }

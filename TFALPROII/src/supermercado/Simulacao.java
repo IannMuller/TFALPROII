@@ -11,8 +11,10 @@ public class Simulacao {
 	protected GeradorClientes geradorClientes;
 	public Acumulador statTemposEsperaFila;
 	public Acumulador statComprimentosFila;
-	public static boolean trace = true; // valor indica se a simulacao ira imprimir
-							// passo-a-passo os resultados
+	public static boolean trace = true; // valor indica se a simulacao ira
+										// imprimir
+
+	// passo-a-passo os resultados
 
 	public Simulacao(boolean trace) {
 		fila = new QueueLinked<Cliente>();
