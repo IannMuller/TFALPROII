@@ -11,9 +11,11 @@ public class SimulacaoFarmacia extends Simulacao {
 	private float probabilidadeChegada;
 	private QueueTAD<Cliente> filaCaixa;
 	private QueueTAD<Cliente> filaCaixaPreferencial;
-	private Caixa caixa;
+	private Caixa caixa1;
+	private Caixa caixa2;
 	private GeradorClientes geradorClientes;
-	private Balcao balcao;
+	private Balcao balcao1;
+	private Balcao balcao2;
 	private QueueTAD<Cliente> filaBalcao;
 	private QueueTAD<Cliente> filaBalcaoPreferencial;
 	public Acumulador statTemposEsperaFila;
@@ -31,8 +33,10 @@ public class SimulacaoFarmacia extends Simulacao {
 		probabilidadeChegada = Leitor.getProbabilidade();
 		filaCaixa = new QueueLinked<Cliente>();
 		filaCaixaPreferencial = new QueueLinked<Cliente>();
-		caixa = new Caixa();
-		balcao = new Balcao();
+		caixa1 = new Caixa();
+		caixa2 = new Caixa();
+		balcao1 = new Balcao();
+		balcao2 = new Balcao();
 		geradorClientes = new GeradorClientes(probabilidadeChegada);
 		statTemposEsperaFila = new Acumulador();
 		statComprimentosFila = new Acumulador();
@@ -68,108 +72,200 @@ public class SimulacaoFarmacia extends Simulacao {
 					filaBalcaoPreferencial.enqueue(c);
 				
 				if (trace)
-					System.out.println(tempo + " cliente " + c.getNumero() + " (" + c.getTempoAtendimento()
-							+ " min) entra na fila do balcão preferencial - "
+					System.out.println(tempo + " cliente preferencial " + c.getNumero() + " (" + c.getTempoAtendimento()
+							+ " min) entra na fila do balcão - "
 							+ filaBalcaoPreferencial.size() + " pessoa(s)");
 				}
 			}
 			// verificar se o balcão esta vazio
-			if (balcao.estaVazio()) {
+			if (balcao1.estaVazio()) {
 				// se o balcão esta vazio, atender o primeiro cliente da
 				// fila
 				// se
 				// ele existir
 				if (!filaBalcaoPreferencial.isEmpty()) {
 					// tirar o cliente do inicio da fila e atender no balcão
-					balcao.atenderCliente(filaBalcaoPreferencial.dequeue());
+					balcao1.atenderCliente(filaBalcaoPreferencial.dequeue());
 					statTemposEsperaFila.adicionar(tempo
-							- balcao.getClienteAtual().getInstanteChegada());
+							- balcao1.getClienteAtual().getInstanteChegada());
 					if (trace)
-						System.out.println(tempo + " cliente "
-								+ balcao.getClienteAtual().getNumero()
-								+ " chega ao balcão preferencial.");
+						System.out.println(tempo + " cliente preferencial "
+								+ balcao1.getClienteAtual().getNumero()
+								+ " chega ao balcão");
 					}
 				
-				if (balcao.estaVazio()) {
+				if (balcao1.estaVazio()) {
 					if (!filaBalcao.isEmpty()) {
 					// tirar o cliente do inicio da fila e atender no balcão
-					balcao.atenderCliente(filaBalcao.dequeue());
+					balcao1.atenderCliente(filaBalcao.dequeue());
 					statTemposEsperaFila.adicionar(tempo
-							- balcao.getClienteAtual().getInstanteChegada());
+							- balcao1.getClienteAtual().getInstanteChegada());
 						if (trace)
 							System.out.println(tempo + " cliente "
-								+ balcao.getClienteAtual().getNumero()
+								+ balcao1.getClienteAtual().getNumero()
 								+ " chega ao balcão.");
 						}
 					}
 				}
-				else {
+			  if (balcao2.estaVazio()) {
+				// se o balcão esta vazio, atender o primeiro cliente da
+				// fila
+				// se
+				// ele existir
+				if (!filaBalcaoPreferencial.isEmpty()) {
+					// tirar o cliente do inicio da fila e atender no balcão
+					balcao2.atenderCliente(filaBalcaoPreferencial.dequeue());
+					statTemposEsperaFila.adicionar(tempo
+							- balcao2.getClienteAtual().getInstanteChegada());
+					if (trace)
+						System.out.println(tempo + " cliente preferencial "
+								+ balcao2.getClienteAtual().getNumero()
+								+ " chega ao balcão.");
+					}
+				
+				if (balcao2.estaVazio()&&balcao1.estaVazio()==false) {
+					if (!filaBalcao.isEmpty()) {
+					// tirar o cliente do inicio da fila e atender no balcão
+					balcao2.atenderCliente(filaBalcao.dequeue());
+					statTemposEsperaFila.adicionar(tempo
+							- balcao2.getClienteAtual().getInstanteChegada());
+						if (trace)
+							System.out.println(tempo + " cliente "
+								+ balcao2.getClienteAtual().getNumero()
+								+ " chega ao balcão.");
+						}
+					}
+				}
+			   if( balcao1.estaVazio()==false) {
 				// se o balcão ja esta ocupado, diminuir de um em um o tempo
 				// de
 				// atendimento ate chegar a zero
-				if (balcao.getClienteAtual().getTempoAtendimento() == 0) {
-					if(balcao.getClienteAtual().getNumeroPreferencia()<35){
+				if (balcao1.getClienteAtual().getTempoAtendimento() == 0) {
+					if(balcao1.getClienteAtual().getNumeroPreferencia()<35){
 						if (trace)
 							System.out.println(tempo + " cliente "
-								+ balcao.getClienteAtual().getNumero()
+								+ balcao1.getClienteAtual().getNumero()
 								+ " deixa o balcao.");
 					}
-					if(balcao.getClienteAtual().getNumeroPreferencia()>=35){
+					if(balcao1.getClienteAtual().getNumeroPreferencia()>=35){
 						if (trace)
-							System.out.println(tempo + " cliente "
-								+ balcao.getClienteAtual().getNumero()
-								+ " deixa o balcao preferencial.");
+							System.out.println(tempo + " cliente preferencial "
+								+ balcao1.getClienteAtual().getNumero()
+								+ " deixa o balcao.");
 					}
-					balcao.getClienteAtual().modifyTempoAtendimento();
-					if (balcao.getClienteAtual().getNumeroPreferencia() < 35) {
-						filaCaixa.enqueue(balcao.getClienteAtual());
+					balcao1.getClienteAtual().modifyTempoAtendimento();
+					if (balcao1.getClienteAtual().getNumeroPreferencia() < 35) {
+						filaCaixa.enqueue(balcao1.getClienteAtual());
 						if (trace)
 							System.out.println(tempo + " cliente "
-								+ balcao.getClienteAtual().getNumero()
-								+ " (" + balcao.getClienteAtual().getTempoAtendimento()
+								+ balcao1.getClienteAtual().getNumero()
+								+ " (" + balcao1.getClienteAtual().getTempoAtendimento()
 								+ " min) entra na fila do caixa - " + filaCaixa.size() + " pessoa(s)");
 					}
-					if (balcao.getClienteAtual().getNumeroPreferencia() >= 35) {
-						filaCaixaPreferencial.enqueue(balcao.getClienteAtual());
+					if (balcao1.getClienteAtual().getNumeroPreferencia() >= 35) {
+						filaCaixaPreferencial.enqueue(balcao1.getClienteAtual());
 						if (trace)
-							System.out.println(tempo + " cliente "
-								+ balcao.getClienteAtual().getNumero()
-								+ " (" + balcao.getClienteAtual().getTempoAtendimento()
-								+ " min) entra na fila do caixa preferencial - " + filaCaixaPreferencial.size() + " pessoa(s)");
+							System.out.println(tempo + " cliente preferencial "
+								+ balcao1.getClienteAtual().getNumero()
+								+ " (" + balcao1.getClienteAtual().getTempoAtendimento()
+								+ " min) entra na fila do caixa - " + filaCaixaPreferencial.size() + " pessoa(s)");
 					}
-					balcao.dispensarClienteAtual();
+					balcao1.dispensarClienteAtual();
 				} 
 				else {
-					balcao.getClienteAtual().decrementarTempoAtendimento();
+					balcao1.getClienteAtual().decrementarTempoAtendimento();
 				}
-			}
+			 }
+			   if( balcao2.estaVazio()==false)
+			   if ( balcao2.getClienteAtual().getTempoAtendimento() == 0) {
+					if( balcao2.getClienteAtual().getNumeroPreferencia()<35){
+						if (trace)
+							System.out.println(tempo + " cliente "
+								+ balcao2.getClienteAtual().getNumero()
+								+ " deixa o balcao.");
+					}
+					if(balcao2.getClienteAtual().getNumeroPreferencia()>=35){
+						if (trace)
+							System.out.println(tempo + " cliente preferencial "
+								+ balcao2.getClienteAtual().getNumero()
+								+ " deixa o balcao.");
+					}
+					balcao2.getClienteAtual().modifyTempoAtendimento();
+					if (balcao2.getClienteAtual().getNumeroPreferencia() < 35) {
+						filaCaixa.enqueue(balcao2.getClienteAtual());
+						if (trace)
+							System.out.println(tempo + " cliente "
+								+ balcao2.getClienteAtual().getNumero()
+								+ " (" + balcao2.getClienteAtual().getTempoAtendimento()
+								+ " min) entra na fila do caixa - " + filaCaixa.size() + " pessoa(s)");
+					}
+					if (balcao2.getClienteAtual().getNumeroPreferencia() >= 35) {
+						filaCaixaPreferencial.enqueue(balcao2.getClienteAtual());
+						if (trace)
+							System.out.println(tempo + " cliente preferencial "
+								+ balcao2.getClienteAtual().getNumero()
+								+ " (" + balcao2.getClienteAtual().getTempoAtendimento()
+								+ " min) entra na fila do caixa - " + filaCaixaPreferencial.size() + " pessoa(s)");
+					}
+					balcao2.dispensarClienteAtual();
+				} 
+				else {
+					balcao2.getClienteAtual().decrementarTempoAtendimento();
+					}
 			statComprimentosFila.adicionar(filaBalcao.size());
 			
 			// verificar se o caixa esta vazio
-			if (caixa.estaVazio()) {
+			if (caixa1.estaVazio()) {
 				// se o caixa esta vazio, atender o primeiro cliente da fila
 				// se
 				// ele existir
 				if (!filaCaixaPreferencial.isEmpty()) {
 					// tirar o cliente do inicio da fila e atender no balcão
-					caixa.atenderCliente(filaCaixaPreferencial.dequeue());
+					caixa1.atenderCliente(filaCaixaPreferencial.dequeue());
 					statTemposEsperaFila.adicionar(tempo
-							- caixa.getClienteAtual().getInstanteChegada());
+							- caixa1.getClienteAtual().getInstanteChegada());
 					if (trace)
-						System.out.println(tempo + " cliente "
-								+ caixa.getClienteAtual().getNumero()
-								+ " chega ao caixa preferencial.");
+						System.out.println(tempo + " cliente preferencial "
+								+ caixa1.getClienteAtual().getNumero()
+								+ " chega ao caixa ");
 					}
 				
-				if (caixa.estaVazio()){
+				if (caixa1.estaVazio()){
 					if (!filaCaixa.isEmpty()) {
 					// tirar o cliente do inicio da fila e atender no caixa
-					caixa.atenderCliente(filaCaixa.dequeue());
+					caixa1.atenderCliente(filaCaixa.dequeue());
 					statTemposEsperaFila.adicionar(tempo
-							- caixa.getClienteAtual().getInstanteChegada());
+							- caixa1.getClienteAtual().getInstanteChegada());
 						if (trace)
 						System.out.println(tempo + " cliente "
-								+ caixa.getClienteAtual().getNumero() + " chega ao caixa.");
+								+ caixa1.getClienteAtual().getNumero() + " chega ao caixa.");
+						}
+					}
+				}
+			if (caixa2.estaVazio()&&caixa1.estaVazio()==false) {
+				// se o caixa esta vazio, atender o primeiro cliente da fila
+				// se
+				// ele existir
+				if (!filaCaixaPreferencial.isEmpty()) {
+					// tirar o cliente do inicio da fila e atender no balcão
+					caixa2.atenderCliente(filaCaixaPreferencial.dequeue());
+					statTemposEsperaFila.adicionar(tempo
+							- caixa2.getClienteAtual().getInstanteChegada());
+					if (trace)
+						System.out.println(tempo + " cliente preferencial "
+								+ caixa2.getClienteAtual().getNumero()
+								+ " chega ao caixa ");
+					}
+				
+				if (caixa2.estaVazio()){
+					if (!filaCaixa.isEmpty()) {
+					// tirar o cliente do inicio da fila e atender no caixa
+					caixa2.atenderCliente(filaCaixa.dequeue());
+					statTemposEsperaFila.adicionar(tempo
+							- caixa2.getClienteAtual().getInstanteChegada());
+						if (trace)
+						System.out.println(tempo + " cliente "
+								+ caixa2.getClienteAtual().getNumero() + " chega ao caixa.");
 						}
 					}
 				}
@@ -177,22 +273,22 @@ public class SimulacaoFarmacia extends Simulacao {
 				// se o caixa ja esta ocupado, diminuir de um em um o tempo
 				// de
 				// atendimento ate chegar a zero
-				if (caixa.getClienteAtual().getTempoAtendimento() == 0) {
-					if(caixa.getClienteAtual().getNumeroPreferencia()<35){
+				if (caixa1.getClienteAtual().getTempoAtendimento() == 0) {
+					if(caixa1.getClienteAtual().getNumeroPreferencia()<35){
 					if (trace)
-						System.out.println(tempo  + " cliente " + caixa.getClienteAtual().getNumero()
+						System.out.println(tempo  + " cliente " + caixa1.getClienteAtual().getNumero()
 							+ " deixa o caixa.");
 						}
-					if(caixa.getClienteAtual().getNumeroPreferencia()>=35){
+					if(caixa1.getClienteAtual().getNumeroPreferencia()>=35){
 						if (trace)
-							System.out.println(tempo + " cliente " + caixa.getClienteAtual().getNumero()
+							System.out.println(tempo + " cliente " + caixa1.getClienteAtual().getNumero()
 								+ " deixa o caixa preferencial.");
 						}
-						caixa.dispensarClienteAtual();
+						caixa1.dispensarClienteAtual();
 					}
 				else {
 
-					caixa.getClienteAtual().decrementarTempoAtendimento();
+					caixa1.getClienteAtual().decrementarTempoAtendimento();
 				}
 			}
 			statComprimentosFila.adicionar(filaCaixa.size());
@@ -208,8 +304,8 @@ public class SimulacaoFarmacia extends Simulacao {
 		filaBalcao = new QueueLinked<Cliente>();
 		filaBalcaoPreferencial = new QueueLinked<Cliente>();
 		filaCaixaPreferencial = new QueueLinked<Cliente>();
-		balcao = new Balcao();
-		caixa = new Caixa();
+		balcao1 = new Balcao();
+		caixa1 = new Caixa();
 		geradorClientes = new GeradorClientes(probabilidadeChegada);
 		statTemposEsperaFila = new Acumulador();
 		statComprimentosFila = new Acumulador();
@@ -229,13 +325,13 @@ public class SimulacaoFarmacia extends Simulacao {
 		System.out.println("Tempo de atendimento maximo:"
 		+ Leitor.getTempoMaxAtendimento());
 		System.out.println("Clientes atendidos no caixa:" 
-		+ caixa.getNumeroAtendidos());
+		+ caixa1.getNumeroAtendidos());
 		System.out.println("Clientes ainda na fila do caixa:"
 				+ filaCaixa.size());
 		System.out.println("Cliente ainda no caixa:"
-				+ (caixa.getClienteAtual() != null));
+				+ (caixa1.getClienteAtual() != null));
 		System.out.println("Clintes atendidos no balcão:"
-				+ balcao.getNumeroDeAtendidos());
+				+ balcao1.getNumeroDeAtendidos());
 		System.out.println("Clientes ainda na fila do balcão:"
 				+ filaBalcao.size());
 		System.out.println("Total de clientes gerados:"
