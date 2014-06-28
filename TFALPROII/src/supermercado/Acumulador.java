@@ -54,7 +54,6 @@ public class Acumulador {
 		valor = valor + n;
 		contador++;
 	}
-
 	/**
 	 * Se o contador nao for zero, faz a média entre valor e contador.
 	 * 
@@ -65,5 +64,9 @@ public class Acumulador {
 			return valor / contador;
 		else
 			return 0;
+	}
+
+	public void aumentarContador() {
+		contador++;
 	}
 }

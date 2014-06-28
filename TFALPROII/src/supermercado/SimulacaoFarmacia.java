@@ -20,6 +20,14 @@ public class SimulacaoFarmacia extends Simulacao {
 	private QueueTAD<Cliente> filaBalcaoPreferencial;
 	public Acumulador statTemposEsperaFila;
 	public Acumulador statComprimentosFila;
+	public Acumulador maiorBalcao1;
+	public Acumulador maiorBalcao2;
+	public Acumulador maiorCaixa1;
+	public Acumulador maiorCaixa2;
+	public Acumulador fila1;
+	public Acumulador fila2;
+	public Acumulador fila4;
+	public Acumulador fila3;
 	public static boolean trace = true; // valor indica se a simulacao ira
 										// imprimir
 
@@ -40,8 +48,17 @@ public class SimulacaoFarmacia extends Simulacao {
 		geradorClientes = new GeradorClientes(probabilidadeChegada);
 		statTemposEsperaFila = new Acumulador();
 		statComprimentosFila = new Acumulador();
+		maiorBalcao1 = new Acumulador();
+		maiorBalcao2 = new Acumulador();
+		maiorCaixa1 = new Acumulador();
+		maiorCaixa2 = new Acumulador();
+		fila1 = new Acumulador();
+		fila2 = new Acumulador();
+		fila3 = new Acumulador();
+		fila4 = new Acumulador();
 		filaBalcao = new QueueLinked<Cliente>();
 		filaBalcaoPreferencial = new QueueLinked<Cliente>();
+		
 	}
 
 	/**
@@ -70,7 +87,7 @@ public class SimulacaoFarmacia extends Simulacao {
 				} 
 				if(c.getNumeroPreferencia()>=35) {
 					filaBalcaoPreferencial.enqueue(c);
-				
+									
 				if (trace)
 					System.out.println(tempo + " cliente preferencial " + c.getNumero() + " (" + c.getTempoAtendimento()
 							+ " min) entra na fila do balcão - "
@@ -92,6 +109,9 @@ public class SimulacaoFarmacia extends Simulacao {
 						System.out.println(tempo + " cliente preferencial "
 								+ balcao1.getClienteAtual().getNumero()
 								+ " chega ao balcão 1.");
+								maiorBalcao1.aumentarContador();
+					}else {
+						fila1.aumentarContador();
 					}
 				
 				if (balcao1.estaVazio()) {
@@ -104,7 +124,10 @@ public class SimulacaoFarmacia extends Simulacao {
 							System.out.println(tempo + " cliente "
 								+ balcao1.getClienteAtual().getNumero()
 								+ " chega ao balcão 1.");
+								maiorBalcao1.aumentarContador();	
 						}
+					}else {
+						fila2.aumentarContador();
 					}
 				}
 			  if (balcao2.estaVazio()) {
@@ -121,6 +144,9 @@ public class SimulacaoFarmacia extends Simulacao {
 						System.out.println(tempo + " cliente preferencial "
 								+ balcao2.getClienteAtual().getNumero()
 								+ " chega ao balcão 2.");
+								maiorBalcao2.aumentarContador();
+					}else {
+						fila1.aumentarContador();
 					}
 				
 				if (balcao2.estaVazio()&&balcao1.estaVazio()==false) {
@@ -133,6 +159,9 @@ public class SimulacaoFarmacia extends Simulacao {
 							System.out.println(tempo + " cliente "
 								+ balcao2.getClienteAtual().getNumero()
 								+ " chega ao balcão 2.");
+								maiorBalcao2.aumentarContador();
+						}else {
+							fila2.aumentarContador();
 						}
 					}
 				}
@@ -228,6 +257,9 @@ public class SimulacaoFarmacia extends Simulacao {
 						System.out.println(tempo + " cliente preferencial "
 								+ caixa1.getClienteAtual().getNumero()
 								+ " chega ao caixa 1. ");
+								maiorCaixa1.aumentarContador();
+					}else {
+						fila3.aumentarContador();
 					}
 				
 				if (caixa1.estaVazio()){
@@ -239,6 +271,9 @@ public class SimulacaoFarmacia extends Simulacao {
 						if (trace)
 						System.out.println(tempo + " cliente "
 								+ caixa1.getClienteAtual().getNumero() + " chega ao caixa 1.");
+								maiorCaixa1.aumentarContador();
+						}else {
+							fila4.aumentarContador();
 						}
 					}
 				}
@@ -255,6 +290,9 @@ public class SimulacaoFarmacia extends Simulacao {
 						System.out.println(tempo + " cliente preferencial "
 								+ caixa2.getClienteAtual().getNumero()
 								+ " chega ao caixa 2 ");
+								maiorCaixa2.aumentarContador();
+					}else{
+						fila3.aumentarContador();
 					}
 				
 				if (caixa2.estaVazio()){
@@ -266,6 +304,9 @@ public class SimulacaoFarmacia extends Simulacao {
 						if (trace)
 						System.out.println(tempo + " cliente "
 								+ caixa2.getClienteAtual().getNumero() + " chega ao caixa 2.");
+								maiorCaixa2.aumentarContador();
+						}else{
+							fila4.aumentarContador();
 						}
 					}
 				}
@@ -315,7 +356,6 @@ public class SimulacaoFarmacia extends Simulacao {
 			}
 			statComprimentosFila.adicionar(filaCaixa.size());
 		}
-
 	}
 
 	/**
@@ -346,21 +386,49 @@ public class SimulacaoFarmacia extends Simulacao {
 		+ Leitor.getTempoMinAtendimento());
 		System.out.println("Tempo de atendimento maximo:"
 		+ Leitor.getTempoMaxAtendimento());
-		System.out.println("Clientes atendidos no caixa:" 
+		System.out.println("Clientes atendidos no caixa 1:" 
 		+ caixa1.getNumeroAtendidos());
+		System.out.println("Clientes atendidos no caixa 2:" 
+				+ caixa2.getNumeroAtendidos());
 		System.out.println("Clientes ainda na fila do caixa:"
 				+ filaCaixa.size());
-		System.out.println("Cliente ainda no caixa:"
+		System.out.println("Cliente ainda no caixa 1:"
 				+ (caixa1.getClienteAtual() != null));
-		System.out.println("Clintes atendidos no balcão:"
+		System.out.println("Cliente ainda no caixa 2:"
+				+ (caixa2.getClienteAtual() != null));
+		System.out.println("Clintes atendidos no balcão 1:"
 				+ balcao1.getNumeroDeAtendidos());
+		System.out.println("Clintes atendidos no balcão 2:"
+				+ balcao2.getNumeroDeAtendidos());
 		System.out.println("Clientes ainda na fila do balcão:"
 				+ filaBalcao.size());
+		System.out.println("Cliente ainda no balcao 1:"
+				+ (balcao1.getClienteAtual() != null));
+		System.out.println("Cliente ainda no balcao 2:"
+				+ (balcao2.getClienteAtual() != null));
 		System.out.println("Total de clientes gerados:"
 				+ geradorClientes.getQuantidadeGerada());
 		System.out.println("Tempo medio de espera:"
 				+ statTemposEsperaFila.getMedia());
 		System.out.println("Comprimento medio da fila:"
 				+ statComprimentosFila.getMedia());
+		System.out.println("Maior fila no balcão 1: "
+				+ maiorBalcao1.getContagem());
+		System.out.println("Maior fila no balcão 2: "
+				+ maiorBalcao2.getContagem());
+		System.out.println("Maior fila no caixa 1: "
+				+ maiorCaixa1.getContagem());
+		System.out.println("Maior fila no caixa 2: "
+				+ maiorCaixa2.getContagem());
+		System.out.println("Tempo com vazio da fila preferencial do balcão: "
+				+ fila1.getContagem());
+		System.out.println("Tempo com fila preferencial do balcão vazia: "
+				+ fila1.getContagem());
+		System.out.println("Tempo com fila normal do balcão vazia: "
+				+ fila2.getContagem());
+		System.out.println("Tempo com fila preferencial do caixa vazia: "
+				+ fila3.getContagem());
+		System.out.println("Tempo com fila normal do caixa vazia: "
+				+ fila4.getContagem());
 	}
 }
