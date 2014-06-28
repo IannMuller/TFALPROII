@@ -1,14 +1,16 @@
 package supermercado;
 
+import java.io.IOException;
+
 /*
  * Classe com a logica da simulacao passo-a-passo
  */
 public class Simulacao {
-	protected static final int duracao = 200;
-	protected static final double probabilidadeChegada = 0.1;
-	protected QueueTAD<Cliente> fila;
-	protected Caixa caixa;
-	protected GeradorClientes geradorClientes;
+	private  int duracao;
+	private  float probabilidadeChegada;
+	private QueueTAD<Cliente> fila;
+	private Caixa caixa;
+	private GeradorClientes geradorClientes;
 	public Acumulador statTemposEsperaFila;
 	public Acumulador statComprimentosFila;
 	public static boolean trace = true; // valor indica se a simulacao ira
@@ -16,13 +18,17 @@ public class Simulacao {
 
 	// passo-a-passo os resultados
 
-	public Simulacao(boolean trace) {
+	public Simulacao(boolean trace) throws IOException {
+		Leitor.getProps();
+		duracao = Leitor.getDuracao();
+		probabilidadeChegada = Leitor.getProbabilidade();
 		fila = new QueueLinked<Cliente>();
 		caixa = new Caixa();
 		geradorClientes = new GeradorClientes(probabilidadeChegada);
 		statTemposEsperaFila = new Acumulador();
 		statComprimentosFila = new Acumulador();
 		trace = true;
+		
 	}
 
 	public void simular() throws Exception {

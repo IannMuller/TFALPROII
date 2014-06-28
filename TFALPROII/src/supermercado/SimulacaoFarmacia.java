@@ -11,23 +11,23 @@ public class SimulacaoFarmacia extends Simulacao {
 	private float probabilidadeChegada;
 	private QueueTAD<Cliente> filaCaixa;
 	private QueueTAD<Cliente> filaCaixaPreferencial;
+	private QueueTAD<Cliente> filaBalcao;
+	private QueueTAD<Cliente> filaBalcaoPreferencial;
 	private Caixa caixa1;
 	private Caixa caixa2;
 	private GeradorClientes geradorClientes;
 	private Balcao balcao1;
 	private Balcao balcao2;
-	private QueueTAD<Cliente> filaBalcao;
-	private QueueTAD<Cliente> filaBalcaoPreferencial;
-	public Acumulador statTemposEsperaFila;
-	public Acumulador statComprimentosFila;
-	public Acumulador maiorBalcao1;
-	public Acumulador maiorBalcao2;
-	public Acumulador maiorCaixa1;
-	public Acumulador maiorCaixa2;
-	public Acumulador fila1;
-	public Acumulador fila2;
-	public Acumulador fila4;
-	public Acumulador fila3;
+	private Acumulador statTemposEsperaFila;
+	private Acumulador statComprimentosFila;
+	private Acumulador maiorBalcao1;
+	private Acumulador maiorBalcao2;
+	private Acumulador maiorCaixa1;
+	private Acumulador maiorCaixa2;
+	private Acumulador fila1;
+	private Acumulador fila2;
+	private Acumulador fila4;
+	private Acumulador fila3;
 	public static boolean trace = true; // valor indica se a simulacao ira
 										// imprimir
 
