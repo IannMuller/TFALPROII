@@ -2,6 +2,8 @@ package supermercado;
 
 public interface QueueTAD<E> {
 	int size();
+	
+	int maxSize();
 
 	boolean isEmpty();
 

@@ -3,36 +3,47 @@ package supermercado;
 import java.io.IOException;
 
 public class SimulacaoFarmacia extends Simulacao {
-	/*
-	 * Classe com a logica da simulacao passo-a-passo
-	 */
-
+	
+	/**Tempo de duração da simulação*/
 	private int duracao;
+	/**Probabilidade de chegar um cliente*/
 	private float probabilidadeChegada;
-	private QueueTAD<Cliente> filaCaixa;
-	private QueueTAD<Cliente> filaCaixaP;
-	private QueueTAD<Cliente> filaBalcao;
-	private QueueTAD<Cliente> filaBalcaoP;
-	private Caixa caixa;
-	private Caixa caixaP;
+	/**Responsável por gerar clientes*/
 	private GeradorClientes geradorClientes;
+	/**Fila de clientes para o caixa*/
+	private QueueTAD<Cliente> filaCaixa;
+	/**Fila de clientes para o caixa preferencial*/
+	private QueueTAD<Cliente> filaCaixaP;
+	/**Fila de clientes para o balcão*/
+	private QueueTAD<Cliente> filaBalcao;
+	/**Fila de clientes para o balcão preferencial*/
+	private QueueTAD<Cliente> filaBalcaoP;
+	/**Caixa de atendimento*/
+	private Caixa caixa;
+	/**Caixa de atendimento preferencial*/
+	private Caixa caixaP;
+	/**Balcão de atendimento*/
 	private Balcao balcao;
+	/**Balcão de atendimento preferencial*/
 	private Balcao balcaoP;
+	/**Tempo médio de espera em todas filas*/
 	private Acumulador statTemposEsperaFila;
+	/**Tamanho médio de todas filas*/
 	private Acumulador statComprimentosFila;
-	private Acumulador maiorBalcao1;
-	private Acumulador maiorBalcao2;
-	private Acumulador maiorCaixa1;
-	private Acumulador maiorCaixa2;
 	private Acumulador fila1;
 	private Acumulador fila2;
 	private Acumulador fila4;
 	private Acumulador fila3;
-	public static boolean trace = true; // valor indica se a simulacao ira
-										// imprimir
-
-	// passo-a-passo os resultados
-
+	/**Define se a simulação deve ser impressa na tela*/
+	public static boolean trace = true;
+	
+	/**
+	 * Construtor da classe
+	 * 
+	 * @param trace
+	 * @throws IOException
+	 * 				Proveniente da classe "Leitor"
+	 */
 	public SimulacaoFarmacia(boolean trace) throws IOException {
 		super(trace);
 		Leitor.getProps();
@@ -48,10 +59,6 @@ public class SimulacaoFarmacia extends Simulacao {
 		geradorClientes = new GeradorClientes(probabilidadeChegada);
 		statTemposEsperaFila = new Acumulador();
 		statComprimentosFila = new Acumulador();
-		maiorBalcao1 = new Acumulador();
-		maiorBalcao2 = new Acumulador();
-		maiorCaixa1 = new Acumulador();
-		maiorCaixa2 = new Acumulador();
 		fila1 = new Acumulador();
 		fila2 = new Acumulador();
 		fila3 = new Acumulador();
@@ -62,8 +69,7 @@ public class SimulacaoFarmacia extends Simulacao {
 	}
 
 	/**
-	 * Método responsavel pela simulação. Cria uma excessão quando algum objeto
-	 * receber null.
+	 * Simula o tráfego de clientes em uma farmácia
 	 * 
 	 * @throws Exception
 	 *             Se alguma parte das listas estiverem null retorna
@@ -111,7 +117,7 @@ public class SimulacaoFarmacia extends Simulacao {
 			
 			/**
 			 * Testa se o balcão de atendimento COMUM está vazio.
-			 * Se estiver e houver algum cliente na filaBalcao, ele vai ser atendido.
+			 * Se estiver e houver algum cliente na "filaBalcao", ele vai ser atendido.
 			 */
 			if (balcao.estaVazio()) {
 				
@@ -127,7 +133,6 @@ public class SimulacaoFarmacia extends Simulacao {
 						System.out.println(tempo + ": cliente "
 								+ balcao.getClienteAtual().getNumero()
 								+ " chega ao balcão.");
-								maiorBalcao1.aumentarContador();
 								
 					}else {
 						
@@ -144,7 +149,6 @@ public class SimulacaoFarmacia extends Simulacao {
 								System.out.println(tempo + ": cliente "
 										+ balcao.getClienteAtual().getNumero()
 										+ " (P) chega ao balcão.");
-										maiorBalcao1.aumentarContador();
 							
 						}
 						
@@ -197,7 +201,7 @@ public class SimulacaoFarmacia extends Simulacao {
 			
 			/**
 			 * Testa se o balcão de atendimento PREFERENCIAL está vazio.
-			 * Se estiver e houver algum cliente na filaBalcaoP, ele vai ser atendido.
+			 * Se estiver e houver algum cliente na "filaBalcaoP", ele vai ser atendido.
 			 */
 			if (balcaoP.estaVazio()) {
 				
@@ -213,8 +217,6 @@ public class SimulacaoFarmacia extends Simulacao {
 						System.out.println(tempo + ": cliente "
 							+ balcaoP.getClienteAtual().getNumero()
 							+ " (P) chega ao balcão preferencial.");
-					
-						maiorBalcao1.aumentarContador();	
 				
 				}else {
 					
@@ -230,8 +232,6 @@ public class SimulacaoFarmacia extends Simulacao {
 							System.out.println(tempo + ": cliente "
 									+ balcaoP.getClienteAtual().getNumero()
 									+ " chega ao balcão preferencial.");
-						
-							maiorBalcao1.aumentarContador();
 									
 					}
 						
@@ -267,7 +267,7 @@ public class SimulacaoFarmacia extends Simulacao {
 						if (trace)
 							System.out.println(tempo + ": cliente "
 									+ balcaoP.getClienteAtual().getNumero()
-									+  "("+balcaoP.getClienteAtual().getTempoAtendimento()
+									+  " ("+balcaoP.getClienteAtual().getTempoAtendimento()
 									+" min) deixa o balcão preferencial e entra na fila do caixa - "+filaCaixa.size()+" pessoa(s).");
 						
 						filaCaixa.enqueue(balcaoP.dispensarClienteAtual());
@@ -281,6 +281,8 @@ public class SimulacaoFarmacia extends Simulacao {
 				
 			}
 
+			//=================================================================================================\\
+			
 			/**
 			 * Testa se o caixa COMUM está vazio.
 			 * Se estiver e houver algum cliente na fila ele será atendido
@@ -297,10 +299,11 @@ public class SimulacaoFarmacia extends Simulacao {
 								+ caixa.getClienteAtual().getNumero()
 								+ " chega ao caixa.");
 					
-					maiorCaixa1.aumentarContador();
-					
 					}else {
 						
+						/**
+						 * Testa se há algum cliente na fila preferencial para ser atendido
+						 */
 						if (!filaCaixaP.isEmpty() && !caixaP.estaVazio()){
 							
 							caixa.atenderCliente(filaCaixaP.dequeue());
@@ -310,8 +313,6 @@ public class SimulacaoFarmacia extends Simulacao {
 								System.out.println(tempo + ": cliente "
 										+ caixa.getClienteAtual().getNumero()
 										+ " (P) chega ao caixa.");
-							
-							maiorCaixa1.aumentarContador();
 							
 						}
 						
@@ -365,10 +366,11 @@ public class SimulacaoFarmacia extends Simulacao {
 								+ caixaP.getClienteAtual().getNumero()
 								+ " (P) chega ao caixa preferencial.");
 					
-					maiorCaixa2.aumentarContador();
-					
 					}else {
 						
+						/**
+						 * Testa se há algum cliente na fila comum para ser atendido
+						*/
 						if (!filaCaixa.isEmpty() && !caixa.estaVazio()){
 							
 							caixaP.atenderCliente(filaCaixa.dequeue());
@@ -376,10 +378,8 @@ public class SimulacaoFarmacia extends Simulacao {
 							
 							if (trace)
 								System.out.println(tempo + ": cliente "
-										+ caixa.getClienteAtual().getNumero()
+										+ caixaP.getClienteAtual().getNumero()
 										+ " chega ao caixa preferencial.");
-							
-							maiorCaixa2.aumentarContador();
 							
 						}
 						
@@ -389,7 +389,7 @@ public class SimulacaoFarmacia extends Simulacao {
 				}else {
 					
 					/**
-					 * Caso o caixa comum esteja ocupado, diminui-se o tempo de de atendimento
+					 * Caso o caixa preferencial esteja ocupado, diminui-se o tempo de de atendimento
 					 * do cliente atual até alcançar zero
 					 */
 					if(caixaP.getClienteAtual().getTempoAtendimento() == 0){
@@ -444,8 +444,8 @@ public class SimulacaoFarmacia extends Simulacao {
 	 */
 	public void imprimirResultados() {
 		
-		double atendidos = balcao.getNumeroDeAtendidos() + balcaoP.getNumeroDeAtendidos() +
-				caixa.getNumeroDeAtendidos() + caixaP.getNumeroDeAtendidos();
+		double atendidosB = balcao.getNumeroDeAtendidos() + balcaoP.getNumeroDeAtendidos();
+		double atendidosC = caixa.getNumeroDeAtendidos() + caixaP.getNumeroDeAtendidos();
 		
 		System.out.println("\nResultados da Simulacao");
 		System.out.println("Duracao: " + duracao+" min");
@@ -459,19 +459,21 @@ public class SimulacaoFarmacia extends Simulacao {
 		
 		System.out.println("\nEstatísticas de atendentes:");
 		
+		System.out.println("Total de clientes atendidos no caixa: " + atendidosC);
 		System.out.println("Clientes atendidos no caixa comum: " 
-		+ caixa.getNumeroDeAtendidos()+" ("+caixa.getNumeroDeAtendidos()/atendidos*100+"%)");
+		+ caixa.getNumeroDeAtendidos()+" ("+caixa.getNumeroDeAtendidos()/atendidosC*100+"%)");
 		System.out.println("Clientes atendidos no caixa preferencial: "  
-				+ caixaP.getNumeroDeAtendidos()+" ("+caixaP.getNumeroDeAtendidos()/atendidos*100+"%)");
+				+ caixaP.getNumeroDeAtendidos()+" ("+caixaP.getNumeroDeAtendidos()/atendidosC*100+"%)");
 		System.out.println("Cliente ainda no caixa comum: "
 				+ (caixa.getClienteAtual() != null));
 		System.out.println("Cliente ainda no caixa preferencial: "
 				+ (caixaP.getClienteAtual() != null));
 		
+		System.out.println("Total de clientes atendidos no balcão: " + atendidosB);
 		System.out.println("Clintes atendidos no balcão comum: "
-				+ balcao.getNumeroDeAtendidos()+" ("+balcao.getNumeroDeAtendidos()/atendidos*100+"%)");
+				+ balcao.getNumeroDeAtendidos()+" ("+balcao.getNumeroDeAtendidos()/atendidosB*100+"%)");
 		System.out.println("Clintes atendidos no balcão preferencial: "
-				+ balcaoP.getNumeroDeAtendidos()+" ("+balcaoP.getNumeroDeAtendidos()/atendidos*100+"%)");
+				+ balcaoP.getNumeroDeAtendidos()+" ("+balcaoP.getNumeroDeAtendidos()/atendidosB*100+"%)");
 		System.out.println("Cliente ainda no balcao comum: "
 				+ (balcao.getClienteAtual() != null));
 		System.out.println("Cliente ainda no balcao preferencial: "
@@ -490,20 +492,18 @@ public class SimulacaoFarmacia extends Simulacao {
 		
 		System.out.println("Total de clientes gerados: "
 				+ geradorClientes.getQuantidadeGerada());
-		System.out.println("Total de clientes atendidos: "
-				+ atendidos);
 		System.out.println("Tempo medio de espera: "
 				+ statTemposEsperaFila.getMedia());
 		System.out.println("Comprimento medio da fila: "
 				+ statComprimentosFila.getMedia());
 		System.out.println("Maior fila no balcão comum: "
-				+ maiorBalcao1.getContagem());
+				+ filaBalcao.maxSize());
 		System.out.println("Maior fila no balcão preferencial: "
-				+ maiorBalcao2.getContagem());
+				+ filaBalcaoP.maxSize());
 		System.out.println("Maior fila no caixa comum: "
-				+ maiorCaixa1.getContagem());
+				+ filaCaixa.maxSize());
 		System.out.println("Maior fila no caixa preferencial: "
-				+ maiorCaixa2.getContagem());
+				+ filaCaixaP.maxSize());
 		System.out.println("Tempo com fila preferencial do balcão vazia: "
 				+ fila1.getContagem());
 		System.out.println("Tempo com fila comum do balcão vazia: "

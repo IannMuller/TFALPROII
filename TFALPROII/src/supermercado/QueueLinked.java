@@ -22,11 +22,17 @@ public class QueueLinked<E> implements QueueTAD<E> {
 	private Node<E> head;
 	private Node<E> tail;
 	private int count;
+	private int maxSize;
 
 	public QueueLinked() {
 		head = null;
 		tail = null;
 		count = 0;
+		maxSize = 0;
+	}
+	
+	public int maxSize(){
+		return maxSize;
 	}
 
 	public int size() {
@@ -57,6 +63,10 @@ public class QueueLinked<E> implements QueueTAD<E> {
 			tail.next = n;
 		tail = n;
 		count++;
+		
+		if(count>maxSize)
+			maxSize = count;
+		
 	}
 
 	public E dequeue() {
