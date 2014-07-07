@@ -29,11 +29,10 @@ public class SimulacaoFarmacia extends Simulacao {
 	/**Tempo médio de espera em todas filas*/
 	private Acumulador statTemposEsperaFila;
 	/**Tamanho médio de todas filas*/
-	private Acumulador statComprimentosFila;
-	private Acumulador fila1;
-	private Acumulador fila2;
-	private Acumulador fila4;
-	private Acumulador fila3;
+	private Acumulador statComprimentoFilaBalcao;
+	private Acumulador statComprimentoFilaBalcaoP;
+	private Acumulador statComprimentoFilaCaixa;
+	private Acumulador statComprimentoFilaCaixaP;
 	/**Define se a simulação deve ser impressa na tela*/
 	public static boolean trace = true;
 	
@@ -59,10 +58,10 @@ public class SimulacaoFarmacia extends Simulacao {
 		geradorClientes = new GeradorClientes(probabilidadeChegada);
 		statTemposEsperaFila = new Acumulador();
 		statComprimentosFila = new Acumulador();
-		fila1 = new Acumulador();
-		fila2 = new Acumulador();
-		fila3 = new Acumulador();
-		fila4 = new Acumulador();
+		statComprimentoFilaBalcao = new Acumulador();
+		statComprimentoFilaBalcaoP = new Acumulador();
+		statComprimentoFilaCaixa = new Acumulador();
+		statComprimentoFilaCaixaP = new Acumulador();
 		filaBalcao = new QueueLinked<Cliente>();
 		filaBalcaoP= new QueueLinked<Cliente>();
 		
@@ -316,7 +315,7 @@ public class SimulacaoFarmacia extends Simulacao {
 							
 						}
 						
-						fila3.aumentarContador();
+						statComprimentoFilaCaixa.aumentarContador();
 					}
 				
 				}else {
@@ -383,7 +382,7 @@ public class SimulacaoFarmacia extends Simulacao {
 							
 						}
 						
-						fila4.aumentarContador();
+						statComprimentoFilaCaixaP.aumentarContador();
 					}
 				
 				}else {
@@ -416,6 +415,11 @@ public class SimulacaoFarmacia extends Simulacao {
 					}
 					
 				}
+			
+			statComprimentoFilaBalcao.adicionar(filaBalcao.size());
+			statComprimentoFilaBalcaoP.adicionar(filaBalcaoP.size());
+			statComprimentoFilaCaixa.adicionar(filaCaixa.size());
+			statComprimentoFilaCaixaP.adicionar(filaCaixaP.size());
 			
 			}
 		
@@ -459,58 +463,70 @@ public class SimulacaoFarmacia extends Simulacao {
 		
 		System.out.println("\nEstatísticas de atendentes:");
 		
-		System.out.println("Total de clientes atendidos no caixa: " + atendidosC);
-		System.out.println("Clientes atendidos no caixa comum: " 
-		+ caixa.getNumeroDeAtendidos()+" ("+caixa.getNumeroDeAtendidos()/atendidosC*100+"%)");
-		System.out.println("Clientes atendidos no caixa preferencial: "  
-				+ caixaP.getNumeroDeAtendidos()+" ("+caixaP.getNumeroDeAtendidos()/atendidosC*100+"%)");
-		System.out.println("Cliente ainda no caixa comum: "
-				+ (caixa.getClienteAtual() != null));
-		System.out.println("Cliente ainda no caixa preferencial: "
-				+ (caixaP.getClienteAtual() != null));
-		
-		System.out.println("Total de clientes atendidos no balcão: " + atendidosB);
-		System.out.println("Clintes atendidos no balcão comum: "
+		System.out.println("\n	Total de clientes atendidos nos balcões: " + atendidosB);
+		System.out.println("	Clintes atendidos no balcão comum: "
 				+ balcao.getNumeroDeAtendidos()+" ("+balcao.getNumeroDeAtendidos()/atendidosB*100+"%)");
-		System.out.println("Clintes atendidos no balcão preferencial: "
-				+ balcaoP.getNumeroDeAtendidos()+" ("+balcaoP.getNumeroDeAtendidos()/atendidosB*100+"%)");
-		System.out.println("Cliente ainda no balcao comum: "
+		System.out.println("	Cliente ainda no balcao comum: "
 				+ (balcao.getClienteAtual() != null));
-		System.out.println("Cliente ainda no balcao preferencial: "
+		System.out.println("	Tempo médio de atendimento no balcão comum: " + balcao.getTempoMedioDeAtendimento()+" min");
+		System.out.println("	Clintes atendidos no balcão preferencial: "
+				+ balcaoP.getNumeroDeAtendidos()+" ("+balcaoP.getNumeroDeAtendidos()/atendidosB*100+"%)");
+		System.out.println("	Cliente ainda no balcao preferencial: "
 				+ (balcaoP.getClienteAtual() != null));
+		System.out.println("	Tempo médio de atendimento no balcão preferencial: " + balcaoP.getTempoMedioDeAtendimento()+" min");
+		
+		System.out.println("\n	Total de clientes atendidos nos caixas: " + atendidosC);
+		System.out.println("	Clientes atendidos no caixa comum: " 
+		+ caixa.getNumeroDeAtendidos()+" ("+caixa.getNumeroDeAtendidos()/atendidosC*100+"%)");
+		System.out.println("	Cliente ainda no caixa comum: "
+				+ (caixa.getClienteAtual() != null));
+		System.out.println("	Tempo médio de atendimento no caixa comum: " + caixa.getTempoMedioDeAtendimento()+" min");
+		System.out.println("	Clientes atendidos no caixa preferencial: "  
+				+ caixaP.getNumeroDeAtendidos()+" ("+caixaP.getNumeroDeAtendidos()/atendidosC*100+"%)");
+		System.out.println("	Cliente ainda no caixa preferencial: "
+				+ (caixaP.getClienteAtual() != null));
+		System.out.println("	Tempo médio de atendimento no caixa preferencial: " + caixaP.getTempoMedioDeAtendimento()+" min");
+		
 		
 		System.out.println("\nEstatísticas de filas:");
 		
-		System.out.println("Clientes ainda na fila do caixa comum: "
-				+ filaCaixa.size());
-		System.out.println("Clientes ainda na fila do caixa preferencial: "
-				+ filaCaixaP.size());
-		System.out.println("Clientes ainda na fila do balcão comum: "
-				+ filaBalcao.size());
-		System.out.println("Clientes ainda na fila do balcão preferencial: "
-				+ filaBalcaoP.size());
-		
-		System.out.println("Total de clientes gerados: "
+		System.out.println("\n	Total de clientes gerados: "
 				+ geradorClientes.getQuantidadeGerada());
-		System.out.println("Tempo medio de espera: "
+		System.out.println("	Tempo médio de espera: "
 				+ statTemposEsperaFila.getMedia());
-		System.out.println("Comprimento medio da fila: "
-				+ statComprimentosFila.getMedia());
-		System.out.println("Maior fila no balcão comum: "
+		
+		System.out.println("\n	Clientes ainda na fila do balcão comum: "
+				+ filaBalcao.size());
+		System.out.println("	Comprimento médio da fila do balcão comum: "+ statComprimentoFilaBalcao.getMedia());
+		System.out.println("	Maior fila no balcão comum: "
 				+ filaBalcao.maxSize());
-		System.out.println("Maior fila no balcão preferencial: "
+		
+		System.out.println("	Clientes ainda na fila do balcão preferencial: "
+				+ filaBalcaoP.size());
+		System.out.println("	Comprimento médio da fila do balcão preferencial: "+ statComprimentoFilaBalcaoP.getMedia());
+		System.out.println("	Maior fila no balcão preferencial: "
 				+ filaBalcaoP.maxSize());
-		System.out.println("Maior fila no caixa comum: "
+		
+		System.out.println("\n	Clientes ainda na fila do caixa comum: "
+				+ filaCaixa.size());
+		System.out.println("	Comprimento médio da fila do caixa comum: "+ statComprimentoFilaCaixa.getMedia());
+		System.out.println("	Maior fila no caixa comum: "
 				+ filaCaixa.maxSize());
-		System.out.println("Maior fila no caixa preferencial: "
+		
+		System.out.println("	Clientes ainda na fila do caixa preferencial: "
+				+ filaCaixaP.size());
+		System.out.println("	Comprimento médio da fila do caixa preferencial: "+ statComprimentoFilaCaixaP.getMedia());
+		System.out.println("	Maior fila no caixa preferencial: "
 				+ filaCaixaP.maxSize());
-		System.out.println("Tempo com fila preferencial do balcão vazia: "
-				+ fila1.getContagem());
+		
+
+		System.out.println("\nTempo com fila preferencial do balcão vazia: "
+				+ statComprimentoFilaBalcao.getContagem());
 		System.out.println("Tempo com fila comum do balcão vazia: "
-				+ fila2.getContagem());
+				+ statComprimentoFilaBalcaoP.getContagem());
 		System.out.println("Tempo com fila preferencial do caixa vazia: "
-				+ fila3.getContagem());
+				+ statComprimentoFilaCaixa.getContagem());
 		System.out.println("Tempo com fila comum do caixa vazia: "
-				+ fila4.getContagem());
+				+ statComprimentoFilaCaixaP.getContagem());
 	}
 }

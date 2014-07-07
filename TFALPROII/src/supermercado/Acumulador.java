@@ -16,7 +16,15 @@ public class Acumulador {
 		valor = 0;
 		contador = 1;
 	}
-
+	
+	/**
+	 * Reseta todos valores
+	 */
+	public void reset(){
+		valor = 0;
+		contador = 0;
+	}
+	
 	/**
 	 * Retorna o valor.
 	 * 

@@ -47,6 +47,7 @@ public class QueueLinked<E> implements QueueTAD<E> {
 		head = null;
 		tail = null;
 		count = 0;
+		maxSize = 0;
 	}
 
 	public E getHead() {
@@ -82,4 +83,5 @@ public class QueueLinked<E> implements QueueTAD<E> {
 		count--;
 		return item;
 	}
+	
 }

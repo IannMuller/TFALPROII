@@ -11,6 +11,9 @@ public abstract class Atendimento {
 
 	/** Guarda o valor total de clientes que foram atendidos. */
 	protected int numeroDeAtendidos;
+	
+	/**Guarda o valor total de tempo de todos atendimentos. */
+	protected double tempoTotalDeAtendimento;
 
 	/**
 	 * Construtor da classe. Não necessita de atributos para ser inicializada
@@ -18,7 +21,7 @@ public abstract class Atendimento {
 	public Atendimento() {
 		clienteAtual = null;
 		numeroDeAtendidos = 0;
-
+		tempoTotalDeAtendimento = 0;
 	}
 
 	/**
@@ -37,6 +40,7 @@ public abstract class Atendimento {
 			throw e;
 		}
 		clienteAtual = v;
+		tempoTotalDeAtendimento = tempoTotalDeAtendimento + v.getTempoAtendimento();
 	}
 
 	/**
@@ -78,6 +82,18 @@ public abstract class Atendimento {
 	 */
 	public int getNumeroDeAtendidos() {
 		return numeroDeAtendidos;
+	}
+	
+	/**
+	 * Dá acesso ao tempo médio de atendimentos
+	 * 
+	 * @return tempoMedioAtendimento
+	 */
+	public double getTempoMedioDeAtendimento(){
+		if(estaVazio())
+			return tempoTotalDeAtendimento/numeroDeAtendidos;
+		else
+			return tempoTotalDeAtendimento/(numeroDeAtendidos+1);
 	}
 
 }
