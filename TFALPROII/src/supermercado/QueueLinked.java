@@ -11,14 +11,14 @@ public class QueueLinked<E> implements QueueTAD<E> {
 		 * Classe interna do nodo.
 		 * 
 		 * @param e
-		 *            O elemento que será passado pro nodo
+		 *            O elemento que será passado para o nodo
 		 */
 		public Node(E e) {
 			element = e;
 			next = null;
 		}
 	}
-
+	
 	private Node<E> head;
 	private Node<E> tail;
 	private int count;

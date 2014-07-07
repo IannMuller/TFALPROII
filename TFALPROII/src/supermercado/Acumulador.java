@@ -74,6 +74,9 @@ public class Acumulador {
 			return 0;
 	}
 
+	/**
+	 * Aumenta o valor do contador em 1
+	 */
 	public void aumentarContador() {
 		contador++;
 	}

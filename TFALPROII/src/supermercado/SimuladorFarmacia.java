@@ -1,8 +1,16 @@
 package supermercado;
 
+/**
+ * Roda a simulação da farmácia
+ */
+
 public class SimuladorFarmacia {
-	/*
-	 * Programa principal da simulacao da farmacia.
+	
+	/**
+	 * Método que cria e executa a simulação
+	 * 
+	 * @throws Exception
+	 * 				Proveniente da classe SimulacaoFarmacia
 	 */
 	public static void main(String[] args) throws Exception {
 		
