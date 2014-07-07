@@ -33,6 +33,11 @@ public class SimulacaoFarmacia extends Simulacao {
 	private Acumulador statComprimentoFilaBalcaoP;
 	private Acumulador statComprimentoFilaCaixa;
 	private Acumulador statComprimentoFilaCaixaP;
+	/**Tempo em que as filas ficam vaizas*/
+	private int filaBalcaoEmp;
+	private int filaBalcaoPEmp;
+	private int filaCaixaEmp;
+	private int filaCaixaPEmp;
 	/**Define se a simulação deve ser impressa na tela*/
 	public static boolean trace = true;
 	
@@ -111,7 +116,7 @@ public class SimulacaoFarmacia extends Simulacao {
 					filaBalcaoP.enqueue(c);
 					
 				}
-				
+					
 			}
 			
 			/**
@@ -234,8 +239,7 @@ public class SimulacaoFarmacia extends Simulacao {
 									
 					}
 						
-						//fila2.aumentarContador();
-					
+											
 				}
 			
 			}else {
@@ -420,7 +424,18 @@ public class SimulacaoFarmacia extends Simulacao {
 			statComprimentoFilaBalcaoP.adicionar(filaBalcaoP.size());
 			statComprimentoFilaCaixa.adicionar(filaCaixa.size());
 			statComprimentoFilaCaixaP.adicionar(filaCaixaP.size());
-			
+				if(filaBalcao.isEmpty()){
+				filaBalcaoEmp++;
+				}
+				if(filaBalcaoP.isEmpty()){
+				filaBalcaoPEmp++;
+				}
+				if(filaCaixa.isEmpty()){
+					filaCaixaEmp++;
+				}
+				if(filaCaixaP.isEmpty()){
+					filaCaixaPEmp++;
+				}
 			}
 		
 		}
@@ -500,18 +515,26 @@ public class SimulacaoFarmacia extends Simulacao {
 		System.out.println("	Comprimento médio da fila do balcão comum: "+ statComprimentoFilaBalcao.getMedia());
 		System.out.println("	Maior fila no balcão comum: "
 				+ filaBalcao.maxSize());
+		System.out.println("	Tempo com fila comum do balcão vazia: "
+				+ filaBalcaoEmp);
 		
 		System.out.println("	Clientes ainda na fila do balcão preferencial: "
 				+ filaBalcaoP.size());
 		System.out.println("	Comprimento médio da fila do balcão preferencial: "+ statComprimentoFilaBalcaoP.getMedia());
 		System.out.println("	Maior fila no balcão preferencial: "
 				+ filaBalcaoP.maxSize());
+		System.out.println("	Tempo com fila preferencial do balcão vazia: "
+				+ filaBalcaoPEmp);
 		
 		System.out.println("\n	Clientes ainda na fila do caixa comum: "
 				+ filaCaixa.size());
 		System.out.println("	Comprimento médio da fila do caixa comum: "+ statComprimentoFilaCaixa.getMedia());
 		System.out.println("	Maior fila no caixa comum: "
 				+ filaCaixa.maxSize());
+		System.out.println("	Tempo com fila comum do caixa vazia: "
+				+ filaCaixaEmp);
+		System.out.println("	Tempo com fila preferencial do caixa vazia: "
+				+ filaCaixaPEmp);
 		
 		System.out.println("	Clientes ainda na fila do caixa preferencial: "
 				+ filaCaixaP.size());
@@ -519,14 +542,6 @@ public class SimulacaoFarmacia extends Simulacao {
 		System.out.println("	Maior fila no caixa preferencial: "
 				+ filaCaixaP.maxSize());
 		
-
-		System.out.println("\nTempo com fila preferencial do balcão vazia: "
-				+ statComprimentoFilaBalcao.getContagem());
-		System.out.println("Tempo com fila comum do balcão vazia: "
-				+ statComprimentoFilaBalcaoP.getContagem());
-		System.out.println("Tempo com fila preferencial do caixa vazia: "
-				+ statComprimentoFilaCaixa.getContagem());
-		System.out.println("Tempo com fila comum do caixa vazia: "
-				+ statComprimentoFilaCaixaP.getContagem());
+				
 	}
 }
