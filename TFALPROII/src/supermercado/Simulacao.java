@@ -96,7 +96,7 @@ public class Simulacao {
 				+ Leitor.getTempoMinAtendimento());
 		System.out.println("Tempo de atendimento maximo:"
 				+ Leitor.getTempoMaxAtendimento());
-		System.out.println("Cliente atendidos:" + caixa.getNumeroAtendidos());
+		System.out.println("Cliente atendidos:" + caixa.getNumeroDeAtendidos());
 		System.out.println("Clientes ainda na fila:" + fila.size());
 		System.out.println("Cliente ainda no caixa:"
 				+ (caixa.getClienteAtual() != null));

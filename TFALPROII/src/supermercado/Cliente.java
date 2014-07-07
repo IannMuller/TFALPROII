@@ -24,8 +24,8 @@ public class Cliente {
 
 	/** Tempo que o cliente demorará no momento do atendimento */
 	private int tempoAtendimento;
-	/** variavel que determina se o cliente será ou não preferencial */
-	private int preferencia;
+	/** Determina se o cliente será ou não preferencial */
+	private boolean preferencial;
 
 	/**
 	 * Construtor da classe. A partir de um leitor, recebe-se os valores de
@@ -45,8 +45,13 @@ public class Cliente {
 	public Cliente(int n, int c) throws IOException {
 		numero = n;
 		instanteChegada = c;
+		
+		preferencial = false;
 
-		preferencia = random.nextInt(50);
+		int preferencia = random.nextInt(100) + 1 ;
+		
+		if (preferencia>=70)
+			preferencial = true;
 
 		modifyTempoAtendimento();
 	}
@@ -102,16 +107,19 @@ public class Cliente {
 		return tempoAtendimento;
 	}
 /**
- * Retorna se o cliente é preferencial ou não 
+ * Retorna se o cliente é preferencial ou não.
+ * Este método é usado exclusivamente em "toString",
+ * portanto é privado
  * 
- * @return d ou s
+ * @return String informando se é ou não preferencial
  */
-	public String getPreferencia() {
-		if (preferencia >= 35) {
-			String d = "Cliente preferencial";
-			return d;
-		}
-		String s = "Cliente normal";
+	private String getPreferencia() {
+		
+		String s = "Cliente Normal";
+		
+		if (preferencial) 
+			s = "Cliente preferencial";
+
 		return s;
 	}
 	/**
@@ -119,8 +127,8 @@ public class Cliente {
 	 * 
 	 * @return preferencia
 	 */
-	public int getNumeroPreferencia(){
-		return preferencia;
+	public boolean isPreferencial(){
+		return preferencial;
 	}
 	/**
 	 * Informa os dados pricipais do cliente em forma de String

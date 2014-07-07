@@ -31,7 +31,7 @@ public class Caixa extends Atendimento {
 		return super.getClienteAtual();
 	}
 
-	public int getNumeroAtendidos() {
+	public int getNumeroDeAtendidos() {
 		return super.getNumeroDeAtendidos();
 	}
 }
