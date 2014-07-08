@@ -48,6 +48,7 @@ public class Leitor {
 		String probabilidadeChegadaP = props.getProperty("probabilidadeChegada");
 		String probabilidadeDesistenciaP = props.getProperty("probabilidadeDesistencia");
 		String probabilidadePreferencialP = props.getProperty("probabilidadePreferencial");
+		String madonna = props.getProperty("madonna");
 		
 		tempoMinAtendimento = Integer.parseInt(tMin);
 		tempoMaxAtendimento = Integer.parseInt(tMax);

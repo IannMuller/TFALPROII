@@ -21,7 +21,7 @@ public class Simulacao {
 	public Simulacao(boolean trace) throws IOException {
 		Leitor.getProps();
 		duracao = Leitor.getDuracao();
-		probabilidadeChegada = Leitor.getProbabilidade();
+		probabilidadeChegada = Leitor.getProbabilidadeChegada();
 		fila = new QueueLinked<Cliente>();
 		caixa = new Caixa();
 		geradorClientes = new GeradorClientes(probabilidadeChegada);

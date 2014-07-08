@@ -14,7 +14,7 @@ public class Cliente {
 	private int numero;
 
 	/** Momento em que o cliente chega */
-	private int instanteChegada;*
+	private int instanteChegada;
 	
 	/** Chance que o cliente tem de desistir da compra após ser atendido no balcão */
 	private double chandeDesistencia;
