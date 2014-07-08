@@ -38,6 +38,10 @@ public class SimulacaoFarmacia extends Simulacao {
 	private int filaBalcaoPEmp;
 	private int filaCaixaEmp;
 	private int filaCaixaPEmp;
+	/**Probabilidade do cliente desistir da compra após sair do balcão*/
+	private float probabilidadeDesistencia;
+	/**Probabilidade do cliente ser preferencial*/
+	private float probabilidadePreferencial;
 	/**Define se a simulação deve ser impressa na tela*/
 	public static boolean trace = true;
 	
@@ -54,6 +58,8 @@ public class SimulacaoFarmacia extends Simulacao {
 
 		duracao = Leitor.getDuracao();
 		probabilidadeChegada = Leitor.getProbabilidadeChegada();
+		probabilidadeDesistencia = Leitor.getProbabilidadeDesistencia();
+		probabilidadePreferencial= Leitor.getProbabilidadePreferencial();
 		filaCaixa = new QueueLinked<Cliente>();
 		filaCaixaP = new QueueLinked<Cliente>();
 		caixa = new Caixa();
@@ -91,7 +97,7 @@ public class SimulacaoFarmacia extends Simulacao {
 				/**
 				 * Cria o cliente.
 				 */
-				Cliente c = new Cliente(geradorClientes.getQuantidadeGerada(), tempo);
+				Cliente c = new Cliente(geradorClientes.getQuantidadeGerada(), tempo, probabilidadePreferencial, probabilidadeDesistencia);
 				
 				/**
 				 * Decide para qual fila o cliente irá. Depende se ele é preferencial
@@ -156,7 +162,6 @@ public class SimulacaoFarmacia extends Simulacao {
 							
 						}
 						
-						//fila1.aumentarContador();
 				}	
 				
 			}else {
@@ -424,18 +429,18 @@ public class SimulacaoFarmacia extends Simulacao {
 			statComprimentoFilaBalcaoP.adicionar(filaBalcaoP.size());
 			statComprimentoFilaCaixa.adicionar(filaCaixa.size());
 			statComprimentoFilaCaixaP.adicionar(filaCaixaP.size());
-				if(filaBalcao.isEmpty()){
-				filaBalcaoEmp++;
-				}
-				if(filaBalcaoP.isEmpty()){
-				filaBalcaoPEmp++;
-				}
-				if(filaCaixa.isEmpty()){
-					filaCaixaEmp++;
-				}
-				if(filaCaixaP.isEmpty()){
-					filaCaixaPEmp++;
-				}
+			if(filaBalcao.isEmpty()){
+			filaBalcaoEmp++;
+			}
+			if(filaBalcaoP.isEmpty()){
+			filaBalcaoPEmp++;
+			}
+			if(filaCaixa.isEmpty()){
+				filaCaixaEmp++;
+			}
+			if(filaCaixaP.isEmpty()){
+				filaCaixaPEmp++;
+			}
 			}
 		
 		}
