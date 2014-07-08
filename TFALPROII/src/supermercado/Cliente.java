@@ -14,15 +14,12 @@ public class Cliente {
 	private int numero;
 
 	/** Momento em que o cliente chega */
-	private int instanteChegada;*
+	private int instanteChegada;
 	
-	/** Chance que o cliente tem de desistir da compra após ser atendido no balcão */
-	private double chandeDesistencia;
+	/** Define se o cliente vai desistir da compra ou não*/
+	private boolean vaiDesistir;
 
-	/**
-	 * Gerador randômico para decidir tempo de atendimento e se o cliente é
-	 * preferencial ou não
-	 */
+	/** Gerador randômico para decidir tempo de atendimento e se o cliente é preferencial ou não */
 	private Random random = new Random();
 
 	/** Tempo que o cliente demorará no momento do atendimento */
@@ -45,16 +42,21 @@ public class Cliente {
 	 *             Necessário para o método "modifyTempoAtendimento"
 	 * 
 	 */
-	public Cliente(int n, int c, double pref, double desist) throws IOException {
+	public Cliente(int n, int c, float pref, float desist) throws IOException {
 		numero = n;
 		instanteChegada = c;
 		
 		preferencial = false;
+		vaiDesistir = false;
 
 		int preferencia = random.nextInt(100) + 1 ;
+		int desistencia = random.nextInt(100) + 1;
 		
-		if (preferencia>=70)
+		if (preferencia<pref*100)
 			preferencial = true;
+		
+		if (desistencia<desist)
+			vaiDesistir = true;
 
 		modifyTempoAtendimento();
 	}
@@ -109,13 +111,14 @@ public class Cliente {
 	public int getTempoAtendimento() {
 		return tempoAtendimento;
 	}
-/**
- * Retorna se o cliente é preferencial ou não.
- * Este método é usado exclusivamente em "toString",
- * portanto é privado
- * 
- * @return String informando se é ou não preferencial
- */
+	
+	/**
+	 * Retorna se o cliente é preferencial ou não.
+	 * Este método é usado exclusivamente em "toString",
+	 * portanto é privado
+	 * 
+	 * @return String informando se é ou não preferencial
+	 */
 	private String getPreferencia() {
 		
 		String s = "Cliente Normal";
@@ -125,14 +128,25 @@ public class Cliente {
 
 		return s;
 	}
+	
 	/**
-	 * Retorna o numero randomico armazenado em preferencia.
+	 * Retorna se o cliente é preferencial.
 	 * 
-	 * @return preferencia
+	 * @return preferencial
 	 */
 	public boolean isPreferencial(){
 		return preferencial;
 	}
+	
+	/**
+	 * Retorna se o cliente vai desistir
+	 * 
+	 * @return vaiDesistir
+	 */
+	public boolean vaiDesistir(){
+		return vaiDesistir;
+	}
+	
 	/**
 	 * Informa os dados pricipais do cliente em forma de String
 	 * 
