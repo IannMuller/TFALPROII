@@ -53,7 +53,7 @@ public class SimulacaoFarmacia extends Simulacao {
 		Leitor.getProps();
 
 		duracao = Leitor.getDuracao();
-		probabilidadeChegada = Leitor.getProbabilidade();
+		probabilidadeChegada = Leitor.getProbabilidadeChegada();
 		filaCaixa = new QueueLinked<Cliente>();
 		filaCaixaP = new QueueLinked<Cliente>();
 		caixa = new Caixa();
