@@ -23,6 +23,12 @@ public class Leitor {
 	/** Probabilidade da criação de um cliente */
 	private static float probabilidadeChegada;
 
+	/** Probabilidade do cliente ser preferencial*/
+	private static float probabilidadePreferencial;
+	
+	/** Probabilidade do cliente desistir da compra */
+	private static float probabilidadeDesistencia;
+	
 	/**
 	 * Responsável por ler os valores necessários para a simulação
 	 * informados a partir de um arquivo do tipo "properties"
@@ -40,11 +46,15 @@ public class Leitor {
 		String tMax = props.getProperty("tempoMaxAtendimento");
 		String duracaoP = props.getProperty("duracao");
 		String probabilidadeChegadaP = props.getProperty("probabilidadeChegada");
+		String probabilidadeDesistenciaP = props.getProperty("probabilidadeDesistencia");
+		String probabilidadePreferencialP = props.getProperty("probabilidadePreferencial");
 		
 		tempoMinAtendimento = Integer.parseInt(tMin);
 		tempoMaxAtendimento = Integer.parseInt(tMax);
 		duracao = Integer.parseInt(duracaoP);
 		probabilidadeChegada = Float.parseFloat(probabilidadeChegadaP);
+		probabilidadeDesistencia = Float.parseFloat(probabilidadeDesistenciaP);
+		probabilidadePreferencial = Float.parseFloat(probabilidadePreferencialP);
 	}
 
 	/**
@@ -79,7 +89,26 @@ public class Leitor {
 	 * 
 	 * @return probabilidadeChegada
 	 */
-	public static float getProbabilidade() {
+	public static float getProbabilidadeChegada() {
 		return probabilidadeChegada;
 	}
+	
+	/**
+	 * Dá acesso à probabilidade do cliente desistir da compra após deixar o balcão
+	 * 
+	 * @return probabilidadeDesistencia
+	 */
+	public static float getProbabilidadeDesistencia(){
+		return probabilidadeDesistencia;
+	}
+	
+	/**
+	 * Dá acesso à probabilidade do cliente ser preferencial
+	 * 
+	 * @return probabilidadePreferencial
+	 */
+	public static float getProbabilidadePreferencial(){
+		return probabilidadePreferencial;
+	}
 }
+
