@@ -39,7 +39,7 @@ public class Simulacao {
 				// se cliente chegou, criar um cliente e inserir na fila do
 				// caixa
 				Cliente c = new Cliente(geradorClientes.getQuantidadeGerada(),
-						tempo, );
+						tempo);
 				fila.enqueue(c);
 				if (trace)
 					System.out.println(tempo + ": cliente " + c.getNumero()
