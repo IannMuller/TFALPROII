@@ -172,30 +172,49 @@ public class SimulacaoFarmacia extends Simulacao {
 				 */
 				if(balcao.getClienteAtual().getTempoAtendimento() == 0){
 					
-					balcao.getClienteAtual().modifyTempoAtendimento();
-					
-					/**
-					 * Caso o cliente seja preferencial, ele é encaminhado para a fila do caixa respectivo
-					 */
-					if (balcao.getClienteAtual().isPreferencial()){
+					if(balcao.getClienteAtual().vaiDesistir()){
 						
-						if (trace)
-							System.out.println(tempo + ": cliente "
-									+ balcao.getClienteAtual().getNumero()
-									+ " (P)("+balcao.getClienteAtual().getTempoAtendimento()
-									+ " min) deixa o balcão e entra na fila do caixa preferencial - "+filaCaixaP.size()+" pessoa(s).");
+						if(trace){
+							
+							if(balcao.getClienteAtual().isPreferencial())
+								System.out.println(tempo+": cliente "+ balcao.getClienteAtual().getNumero()+
+										" (P) deixa o balcão e desiste da compra.");
+							else
+								System.out.println(tempo+": cliente "+ balcao.getClienteAtual().getNumero()+
+										" deixa o balcão e desiste da compra.");
+							
+						}
 						
-						filaCaixaP.enqueue(balcao.dispensarClienteAtual());
-					
+						balcao.dispensarClienteAtual();
+						
 					}else {
+					
+						balcao.getClienteAtual().modifyTempoAtendimento();
 						
-						if (trace)
-							System.out.println(tempo + ": cliente "
-									+ balcao.getClienteAtual().getNumero()
-									+ " ("+balcao.getClienteAtual().getTempoAtendimento()
-									+ " min) deixa o balcão e entra na fila do caixa - "+filaCaixa.size()+" pessoa(s).");
+						/**
+						 * Caso o cliente seja preferencial, ele é encaminhado para a fila do caixa respectivo
+						 */
+						if (balcao.getClienteAtual().isPreferencial()){
 						
-						filaCaixa.enqueue(balcao.dispensarClienteAtual());
+							if (trace)
+								System.out.println(tempo + ": cliente "
+										+ balcao.getClienteAtual().getNumero()
+										+ " (P)("+balcao.getClienteAtual().getTempoAtendimento()
+										+ " min) deixa o balcão e entra na fila do caixa preferencial - "+filaCaixaP.size()+" pessoa(s).");
+						
+							filaCaixaP.enqueue(balcao.dispensarClienteAtual());
+					
+						}else {
+						
+							if (trace)
+								System.out.println(tempo + ": cliente "
+										+ balcao.getClienteAtual().getNumero()
+										+ " ("+balcao.getClienteAtual().getTempoAtendimento()
+										+ " min) deixa o balcão e entra na fila do caixa - "+filaCaixa.size()+" pessoa(s).");
+							
+							filaCaixa.enqueue(balcao.dispensarClienteAtual());
+						
+						}
 						
 					}
 					
@@ -255,30 +274,49 @@ public class SimulacaoFarmacia extends Simulacao {
 				 */
 				if(balcaoP.getClienteAtual().getTempoAtendimento() == 0){
 					
-					balcaoP.getClienteAtual().modifyTempoAtendimento();
+					if(balcaoP.getClienteAtual().vaiDesistir()){
+						
+						if(trace){
+							
+							if(balcaoP.getClienteAtual().isPreferencial())
+								System.out.println(tempo+": cliente "+ balcaoP.getClienteAtual().getNumero()+
+										" (P) deixa o balcão preferencial e desiste da compra.");
+							else
+								System.out.println(tempo+": cliente "+ balcaoP.getClienteAtual().getNumero()+
+										" deixa o balcão preferencial e desiste da compra.");
+							
+							}
+						
+						balcaoP.dispensarClienteAtual();
+						
+					}else {
 					
-					/**
-					 * Caso o cliente seja preferencial, ele é encaminhado para a fila do caixa respectivo
-					 */
-					if(balcaoP.getClienteAtual().isPreferencial()){
+						balcaoP.getClienteAtual().modifyTempoAtendimento();
+					
+						/**
+						 * Caso o cliente seja preferencial, ele é encaminhado para a fila do caixa respectivo
+						 */
+						if(balcaoP.getClienteAtual().isPreferencial()){
 						
-						if (trace)
-							System.out.println(tempo + ": cliente "
-									+ balcaoP.getClienteAtual().getNumero()
-									+ " (P)("+balcaoP.getClienteAtual().getTempoAtendimento()
-									+ " min) deixa o balcão preferencial e entra na fila do caixa preferencial - "+filaCaixaP.size()+" pessoa(s).");
+							if (trace)
+								System.out.println(tempo + ": cliente "
+										+ balcaoP.getClienteAtual().getNumero()
+										+ " (P)("+balcaoP.getClienteAtual().getTempoAtendimento()
+										+ " min) deixa o balcão preferencial e entra na fila do caixa preferencial - "+filaCaixaP.size()+" pessoa(s).");
 						
-						filaCaixaP.enqueue(balcaoP.dispensarClienteAtual());
+							filaCaixaP.enqueue(balcaoP.dispensarClienteAtual());
 						
-					} else{
+						} else{
 						
-						if (trace)
-							System.out.println(tempo + ": cliente "
-									+ balcaoP.getClienteAtual().getNumero()
-									+  " ("+balcaoP.getClienteAtual().getTempoAtendimento()
-									+" min) deixa o balcão preferencial e entra na fila do caixa - "+filaCaixa.size()+" pessoa(s).");
+							if (trace)
+								System.out.println(tempo + ": cliente "
+										+ balcaoP.getClienteAtual().getNumero()
+										+  " ("+balcaoP.getClienteAtual().getTempoAtendimento()
+										+" min) deixa o balcão preferencial e entra na fila do caixa - "+filaCaixa.size()+" pessoa(s).");
 						
-						filaCaixa.enqueue(balcaoP.dispensarClienteAtual());
+							filaCaixa.enqueue(balcaoP.dispensarClienteAtual());
+						}
+						
 					}
 					
 				} else{
