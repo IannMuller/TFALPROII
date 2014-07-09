@@ -510,12 +510,16 @@ public class SimulacaoFarmacia extends Simulacao {
 		double atendidosC = caixa.getNumeroDeAtendidos() + caixaP.getNumeroDeAtendidos();
 		
 		System.out.println("\nResultados da Simulacao");
-		System.out.println("Duracao: " + duracao+" min");
-		System.out.println("Probabilidade de chegada de clientes: "
+		System.out.println("\n	Duracao: " + duracao+" min");
+		System.out.println("	Probabilidade de chegada de clientes: "
 		+ probabilidadeChegada*100 + "%");
-		System.out.println("Tempo de atendimento mínimo: "
+		System.out.println("	Probabilidade do cliente ser preferencial: "
+				+ probabilidadePreferencial*100 + "%");
+		System.out.println("	Probabilidade do cliente desistir: "
+				+ probabilidadeDesistencia*100 + "%");
+		System.out.println("	Tempo de atendimento mínimo: "
 		+ Leitor.getTempoMinAtendimento()+" min");
-		System.out.println("Tempo de atendimento máximo: "
+		System.out.println("	Tempo de atendimento máximo: "
 		+ Leitor.getTempoMaxAtendimento()+" min");
 		
 		
@@ -524,12 +528,12 @@ public class SimulacaoFarmacia extends Simulacao {
 		System.out.println("\n	Total de clientes atendidos nos balcões: " + atendidosB);
 		System.out.println("	Clintes atendidos no balcão comum: "
 				+ balcao.getNumeroDeAtendidos()+" ("+balcao.getNumeroDeAtendidos()/atendidosB*100+"%)");
-		System.out.println("	Cliente ainda no balcao comum: "
+		System.out.println("	Cliente ainda no balcão comum: "
 				+ (balcao.getClienteAtual() != null));
 		System.out.println("	Tempo médio de atendimento no balcão comum: " + balcao.getTempoMedioDeAtendimento()+" min");
-		System.out.println("	Clintes atendidos no balcão preferencial: "
+		System.out.println("	Clientes atendidos no balcão preferencial: "
 				+ balcaoP.getNumeroDeAtendidos()+" ("+balcaoP.getNumeroDeAtendidos()/atendidosB*100+"%)");
-		System.out.println("	Cliente ainda no balcao preferencial: "
+		System.out.println("	Cliente ainda no balcão preferencial: "
 				+ (balcaoP.getClienteAtual() != null));
 		System.out.println("	Tempo médio de atendimento no balcão preferencial: " + balcaoP.getTempoMedioDeAtendimento()+" min");
 		
@@ -558,32 +562,32 @@ public class SimulacaoFarmacia extends Simulacao {
 		System.out.println("	Comprimento médio da fila do balcão comum: "+ statComprimentoFilaBalcao.getMedia());
 		System.out.println("	Maior fila no balcão comum: "
 				+ filaBalcao.maxSize());
-		System.out.println("	Tempo com fila comum do balcão vazia: "
-				+ filaBalcaoEmp);
+		System.out.println("	Tempo que a fila do balcão comum ficou vazia: "
+				+ filaBalcaoEmp + " min");
 		
 		System.out.println("	Clientes ainda na fila do balcão preferencial: "
 				+ filaBalcaoP.size());
 		System.out.println("	Comprimento médio da fila do balcão preferencial: "+ statComprimentoFilaBalcaoP.getMedia());
 		System.out.println("	Maior fila no balcão preferencial: "
 				+ filaBalcaoP.maxSize());
-		System.out.println("	Tempo com fila preferencial do balcão vazia: "
-				+ filaBalcaoPEmp);
+		System.out.println("	Tempo que a fila do balcão preferencial ficou vazia: "
+				+ filaBalcaoPEmp+" min");
 		
 		System.out.println("\n	Clientes ainda na fila do caixa comum: "
 				+ filaCaixa.size());
 		System.out.println("	Comprimento médio da fila do caixa comum: "+ statComprimentoFilaCaixa.getMedia());
 		System.out.println("	Maior fila no caixa comum: "
 				+ filaCaixa.maxSize());
-		System.out.println("	Tempo com fila comum do caixa vazia: "
-				+ filaCaixaEmp);
-		System.out.println("	Tempo com fila preferencial do caixa vazia: "
-				+ filaCaixaPEmp);
+		System.out.println("	Tempo que a fila do caixa comum ficou vazia: "
+				+ filaCaixaEmp+" min");
 		
 		System.out.println("	Clientes ainda na fila do caixa preferencial: "
 				+ filaCaixaP.size());
 		System.out.println("	Comprimento médio da fila do caixa preferencial: "+ statComprimentoFilaCaixaP.getMedia());
 		System.out.println("	Maior fila no caixa preferencial: "
 				+ filaCaixaP.maxSize());
+		System.out.println("	Tempo que a fila do caixa preferencial ficou vazia: "
+				+ filaCaixaPEmp+" min");
 		
 				
 	}
