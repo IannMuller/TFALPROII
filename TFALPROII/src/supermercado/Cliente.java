@@ -37,6 +37,12 @@ public class Cliente {
 	 * 
 	 * @param c
 	 *            Momento de chegada do cliente
+	 *            
+	 * @param pref
+	 * 			  Possibilidade do cliente ser preferencial
+	 * 
+	 * @param desist
+	 * 			  Possibilidade do cliente desistir
 	 * 
 	 * @throws IOException
 	 *             Necessário para o método "modifyTempoAtendimento"
@@ -55,9 +61,19 @@ public class Cliente {
 		if (preferencia<pref*100)
 			preferencial = true;
 		
-		if (desistencia<desist)
+		if (desistencia<desist*100)
 			vaiDesistir = true;
 
+		modifyTempoAtendimento();
+	}
+	
+	public Cliente(int n, int c) throws IOException {
+		numero = n;
+		instanteChegada = c;
+		
+		preferencial = false;
+		vaiDesistir = false;
+		
 		modifyTempoAtendimento();
 	}
 
